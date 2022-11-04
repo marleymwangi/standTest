@@ -91,7 +91,7 @@ export default function Banner() {
             </button>
             <div className="p-6 text-center">
               <p>
-                {!state && "Add the Recess application to your HomeScreen"}
+                {!state && "Add the Taka application to your HomeScreen"}
                 {state && state == "installed" && "Thank you 😀"}
                 {state && state == "dismissed" && "Maybe another time"}
               </p>
