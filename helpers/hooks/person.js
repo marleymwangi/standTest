@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { doc,setDoc, onSnapshot } from "@firebase/firestore";
+import { doc, setDoc, onSnapshot } from "@firebase/firestore";
 import { db } from "../../firebase";
 //custom
 
@@ -21,6 +21,8 @@ const usePersonFetch = (phoneNumber) => {
             setPending(false);
           } else {
             console.warn(`No user found with ${phoneNumber}`);
+            setPending(false);
+            setError(`No user found with ${phoneNumber}`);
           }
         });
       } else {
@@ -57,7 +59,7 @@ const usePersonFetch = (phoneNumber) => {
     person,
     pending,
     error,
-    setUserPointsDb
+    setUserPointsDb,
   };
 };
 
