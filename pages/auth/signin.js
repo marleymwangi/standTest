@@ -8,7 +8,6 @@ import {
 import Router from "next/router";
 //custom
 import { classNames } from "../../helpers/utility";
-import Logo from "./logo";
 //dynamic
 const FcGoogle = dynamic(async () => (await import("react-icons/fc")).FcGoogle);
 
@@ -49,12 +48,8 @@ export default function SignIn({ providers }) {
     Object.values(providers)?.find((p) => p?.type === "credentials");
 
   return (
-    <main className="relative h-screen w-screen bg-cyan-400 flex flex-col">
-      <Logo />
-      <p className="font-poppins font-semibold text-xl text-center">Recess</p>
-      <p className="font-poppins font-medium text-center text-lg mb-4">
-        School made easy
-      </p>
+    <main className="relative h-screen w-screen bg-teal-100 flex flex-col justify-end pb-[20vh]">
+      <p className="font-poppins font-semibold text-xl text-center">Taka</p>
       <section>
         {creds && (
           <div className="grid gap-4">
