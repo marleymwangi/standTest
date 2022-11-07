@@ -39,8 +39,8 @@ export default function BottomNavbar() {
           iconOff={RiHome2Line}
         />
         <NavItem
-          href="/calendar"
-          selected={router.pathname.indexOf("/calendar") === 0}
+          href="/history"
+          selected={router.pathname.indexOf("/history") === 0}
           iconOn={RiBookletFill}
           iconOff={RiBookletLine}
         />

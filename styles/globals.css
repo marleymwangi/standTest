@@ -11,7 +11,7 @@
 @tailwind utilities;
 
 body {
-  @apply font-roboto bg-teal-50 text-teal-900;
+  @apply font-poppins bg-teal-50 text-teal-900;
 }
 
 .abs-center{

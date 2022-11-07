@@ -42,7 +42,7 @@ export default function Step1({ payload, setPayload, step, setStep }) {
         Customer Phone Number
       </p>
       <label className="input-group input-group-lg">
-        <span className="text-white bg-primary font-bold">+254</span>
+        <span className="text-white bg-primary font-medium">+254</span>
         <input
           type="text"
           onChange={change}
