@@ -1,9 +1,12 @@
+import { collection, onSnapshot, addDoc, doc } from "@firebase/firestore";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { doc, setDoc, onSnapshot } from "@firebase/firestore";
-import { db } from "../../firebase";
 //custom
+import { db } from "../../firebase";
+import { isEmpty } from "../utility";
 
 const usePersonFetch = (phoneNumber) => {
+  const { data: session } = useSession();
   const [person, setPerson] = useState({});
   const [pending, setPending] = useState(false);
   const [error, setError] = useState(null);
@@ -35,20 +38,24 @@ const usePersonFetch = (phoneNumber) => {
     }
   }, [phoneNumber]);
 
-  function setUserPointsDb(points) {
+  function createDropOffTransaction(obj) {
     return new Promise((resolve, reject) => {
       try {
-        if (phoneNumber?.length !== 13) {
-          reject({ message: "Missing phone number" });
+        if (isEmpty(obj)) {
+          reject("Nothing to update");
+        } else if (phoneNumber?.length !== 13) {
+          reject("Missing phone number");
+        } else if (session?.user?.id?.length < 1) {
+          reject("Please sign in")
         } else {
-          let docRef = doc(db, "users", phoneNumber);
+          let colRef = collection(db, "drops");
+          obj.submitted = session.user.id;
+          obj.status = "pending"
 
-          setDoc(docRef, { points }, { merge: true }).then((res) =>
-            resolve("done")
-          );
+          addDoc(colRef, obj).then((res) => resolve("done"));
         }
       } catch (error) {
-        console.warn("User Hook: setUserDataDb:");
+        console.warn("Person Hook: createDropOffTransaction:");
         console.error(error);
         reject(error);
       }
@@ -59,7 +66,7 @@ const usePersonFetch = (phoneNumber) => {
     person,
     pending,
     error,
-    setUserPointsDb,
+    createDropOffTransaction,
   };
 };
 

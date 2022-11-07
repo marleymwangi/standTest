@@ -10,7 +10,7 @@ import { classNames, isEmpty } from "../../helpers/utility";
 const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
 
 export default function Step3({ payload, setPayload, step, setStep }) {
-  const { setUserPointsDb } = usePersonFetch(payload?.user?.id);
+  const { createDropOffTransaction } = usePersonFetch(payload?.user?.id);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -30,23 +30,15 @@ export default function Step3({ payload, setPayload, step, setStep }) {
   };
 
   const handleComplete = () => {
-    let tot = 0;
+    if (!isEmpty(payload?.user) && payload.containers.length > 0) {
+      let u = payload.user;
+      delete u.points;
 
-    payload?.containers.forEach((cont) => {
-      let tmp = cont.containers * 1;
-      tot = tot + tmp;
-    });
-
-    if (!isEmpty(payload?.user)) {
-      let currP = payload?.user?.points || 0;
-
-      let total = currP + tot;
-      sendVoucher({
-        name: payload?.user?.name,
-        phone: payload?.user?.id,
-        amount: 1,
-      });
-      setUserPointsDb(total)
+      createDropOffTransaction({
+        user: u,
+        timestamp: new Date(),
+        containers: payload.containers,
+      })
         .then((res) => {
           console.log(res);
           setPayload({});
@@ -54,7 +46,7 @@ export default function Step3({ payload, setPayload, step, setStep }) {
           toast.success(
             <div>
               <h5 className="font-medium text-gray-900">Success</h5>
-              <h6>Points assigned to customer</h6>
+              <h6>Drop off saved successfully.</h6>
             </div>,
             {
               closeOnClick: true,
@@ -65,8 +57,8 @@ export default function Step3({ payload, setPayload, step, setStep }) {
           console.log(err);
           toast.error(
             <div>
-              <h5 className="font-medium text-gray-900">Success</h5>
-              <h6>Error occurred when trying to save the reminder</h6>
+              <h5 className="font-medium text-gray-900">Error</h5>
+              <h6>Error saving user drop off</h6>
             </div>,
             {
               closeOnClick: true,
@@ -77,42 +69,8 @@ export default function Step3({ payload, setPayload, step, setStep }) {
     }
   };
 
-  const sendVoucher = async (body) => {
-    let url =
-      "https://us-central1-taka-earth.cloudfunctions.net/takaAPI/disburse";
-
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (response.ok) {
-        // response.status >= 200 && response.status < 300
-        response.json().then((data) => {
-          console.log(data);
-          toast.success(
-            <div>
-              <h5 className="font-medium text-gray-900">Success</h5>
-              <h6>Voucher disbursed to customer</h6>
-            </div>,
-            {
-              closeOnClick: true,
-            }
-          );
-        });
-      } else {
-        response.json().then((data) => {
-          console.warn(data);
-          reject(data);
-        });
-      }
-    });
-  };
-
   return (
-    <div className="mx-auto pt-[5vh] w-full">
+    <div className="mx-auto pb-10 w-full">
       <p className="text-lg text-teal-700 font-medium text-center">
         Confirm Customer Dropoff
       </p>

@@ -13,12 +13,15 @@ module.exports = {
       xxs: "320px",
       xs: "480px",
       ...defaultTheme.screens,
-    },  
+    },
     extend: {
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
         inter: ["Inter", "sans-serif"],
+      },
+      animation: {
+        "spin-slow": "spin 3s linear infinite",
       },
     },
   },

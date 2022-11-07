@@ -18,16 +18,13 @@ import { isEmpty } from "../utility";
 const useUserFetch = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
-  const [students, setStudents] = useState([]);
-  const [notifications, setNotifications] = useState([]);
+  const [drops, setDrops] = useState([]);
 
   const [userPending, setUserPending] = useState(true);
-  const [studsPending, setStudsPending] = useState(true);
-  const [notsPending, setNotsPending] = useState(true);
+  const [dropsPending, setDropsPending] = useState(true);
 
   const [userError, setUserError] = useState(null);
-  const [studsError, setStudsError] = useState(null);
-  const [notsError, setNotsError] = useState(null);
+  const [dropsError, setDropsError] = useState(null);
 
   useEffect(() => {
     if (!isEmpty(session)) {
@@ -58,7 +55,7 @@ const useUserFetch = () => {
               setUserPending(false);
             }
           }
-        }); 
+        });
       }
     } catch (error) {
       console.warn(
@@ -67,6 +64,38 @@ const useUserFetch = () => {
       );
       setUserError(error);
       setUserPending(false);
+    }
+  }, [session, session?.user?.id]);
+
+  useEffect(() => {
+    try {
+      if (!isEmpty(session) && session?.user?.id.length > 0) {
+        let queryRef = query(
+          collection(db, "drops"),
+          orderBy("timestamp", "desc")
+        );
+
+        return onSnapshot(queryRef, (snapshot) => {
+          let tmp = [];
+          snapshot.forEach((doc) => {
+            let timestm = doc.data().timestamp.toDate();
+            let d = {
+              id: doc.id,
+              ...doc.data(),
+              timestamp: timestm,
+            };
+
+            tmp.push(d);
+          });
+
+          setDrops(tmp);
+          setDropsPending(false);
+        });
+      }
+    } catch (error) {
+      console.log("User Hook: getDrops: ", error);
+      setDropsError(error);
+      setDropsPending(false);
     }
   }, [session, session?.user?.id]);
 
@@ -115,8 +144,13 @@ const useUserFetch = () => {
 
   return {
     user,
+    drops,
+
     userPending,
+    dropsPending,
+
     userError,
+    dropsError,
     updateNotId,
   };
 };

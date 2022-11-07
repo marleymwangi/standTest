@@ -26,7 +26,7 @@ export default function Containers({ data, state, message, updateFunc }) {
   return (
     <>
       <div className="mx-auto w-full max-w-sm">
-        <p className="text-lg text-primary text-center">Select Brand</p>
+        <p className="text-primary text-center">Select Brand</p>
         <select
           onChange={change}
           defaultValue={"default"}
@@ -43,7 +43,7 @@ export default function Containers({ data, state, message, updateFunc }) {
         </select>
       </div>
       <div className="mx-auto w-full max-w-sm">
-        <p className="text-lg text-primary text-center">No. of Container</p>
+        <p className="text-primary text-center">No. of Container</p>
         <NumberPicker setFunc={setContainers} />
       </div>
       {data?.name?.length < 1 && (

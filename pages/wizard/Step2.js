@@ -43,21 +43,23 @@ export default function Step2({ payload, setPayload, step, setStep }) {
   };
 
   return (
-    <div className="mx-auto pt-[5vh] w-full">
+    <div className="mx-auto pb-10 w-full">
       <p className="text-lg text-teal-700 font-medium text-center">
-        Customer Phone Number
+        Customer Containers
       </p>
-      {brandContainers?.data?.length > 0 &&
-        brandContainers?.data.map((bC, i) => (
-          <div key={i}>
-            <Containers
-              data={bC}
-              state={brandContainers?.state}
-              message={brandContainers.mess}
-              updateFunc={toggle}
-            />
-          </div>
-        ))}
+      <div className="grid mt-6 gap-6">
+        {brandContainers?.data?.length > 0 &&
+          brandContainers?.data.map((bC, i) => (
+            <div key={i}>
+              <Containers
+                data={bC}
+                state={brandContainers?.state}
+                message={brandContainers.mess}
+                updateFunc={toggle}
+              />
+            </div>
+          ))}
+      </div>
       <div className="grid place-content-center mt-10">
         <button
           onClick={addContainer}
