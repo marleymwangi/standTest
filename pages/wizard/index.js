@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AuthGuard } from "../../components/elements/AuthGuard";
+import { classNames } from "../../helpers/utility";
 //custom
 import Step1 from "./Step1";
 import Step2 from "./Step2";
@@ -15,11 +16,10 @@ export default function WizardIndex() {
         <section className="container overflow-hidden mx-auto grid gap-16 px-2">
           <div className="grid gap-2">
             <p className="font-medium text-teal-700">Step 1: Find Customer</p>
-            <div className="grid grid-cols-4 gap-1">
-              <div className="h-2 w-full bg-teal-500 rounded" />
-              <div className="h-2 w-full bg-gray-300 rounded" />
-              <div className="h-2 w-full bg-gray-300 rounded" />
-              <div className="h-2 w-full bg-gray-300 rounded" />
+            <div className="grid grid-cols-3 gap-1">
+              <div className={classNames("h-2 w-full rounded", step === "number" ? "bg-primary" : "bg-gray-300")}/>
+              <div className={classNames("h-2 w-full rounded", step === "containers" ? "bg-primary" : "bg-gray-300")}/>
+              <div className={classNames("h-2 w-full rounded", step === "confirm" ? "bg-primary" : "bg-gray-300")}/>
             </div>
           </div>
           {step === "number" && (

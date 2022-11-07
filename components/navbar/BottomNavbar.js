@@ -31,7 +31,7 @@ export default function BottomNavbar() {
     return null;
   } else {
     return (
-      <div className="fixed bottom-0 z-40 w-screen border-t border-emerald-500 bg-base-100 text-primary grid grid-cols-3">
+      <div className="fixed bottom-0 z-40 w-screen border-t border-teal-500 bg-base-100 text-primary grid grid-cols-3">
         <NavItem
           href="/"
           selected={router.pathname === "/"}

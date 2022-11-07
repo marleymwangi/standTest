@@ -56,7 +56,7 @@ export default function Step1({ payload, setPayload, step, setStep }) {
           Please enter valid Input. {phoneNumber?.mess}
         </p>
       )}
-      <div className="grid place-content-center mt-10 text-center text-emerald-700 bg-white rounded-box border min-h-[30vh]">
+      <div className="grid place-content-center mt-10 text-center text-teal-700 bg-white rounded-box border min-h-[30vh]">
         <p className="font-medium text-lg text-gray-400">
           {!pending && !person?.name && "Enter a valid user number"}
         </p>

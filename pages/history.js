@@ -4,6 +4,7 @@ import useUserFetch from "../helpers/hooks/user";
 //custom
 import { AuthGuard } from "../components/elements/AuthGuard";
 import { classNames } from "../helpers/utility";
+import { useData } from "../context/dataContext";
 //dynamic
 const MdPending = dynamic(
   async () => (await import("react-icons/md")).MdPending
@@ -16,6 +17,7 @@ const MdErrorOutline = dynamic(
 );
 
 export default function History() {
+  const { setSelDrop } = useData();
   const { drops } = useUserFetch();
 
   const getContainers = (array) => {
@@ -30,6 +32,10 @@ export default function History() {
     }
   };
 
+  const handleClick = (d) => {
+    setSelDrop(d);
+  };
+
   return (
     <AuthGuard>
       <main className="min-h-[95vh] pt-20 pb-16">
@@ -42,11 +48,15 @@ export default function History() {
             {drops &&
               drops.map((drop, i) => (
                 <label
-                  htmlFor="trans_modal"
                   key={drop.id}
-                  className={classNames("flex border-t border-dashed font-poppins", i % 2 && "bg-gray-100")}
+                  htmlFor="trans_modal"
+                  onClick={() => handleClick(drop)}
+                  className={classNames(
+                    "flex border-t border-x border-dashed font-poppins",
+                    i % 2 && "bg-gray-100"
+                  )}
                 >
-                  <div className="p-3 flex-1">
+                  <div className="p-3 flex-1 border-r border-dashed">
                     <div className="flex gap-4">
                       <div className="grid place-content-center">
                         <div className="avatar">
@@ -56,17 +66,17 @@ export default function History() {
                         </div>
                       </div>
                       <div className="">
-                        <p className="text-emerald-500 text-xs font-semibold">
+                        <p className="text-xs font-medium text-teal-600">
                           <span className="text-gray-400 capitalize">
                             phone :
                           </span>{" "}
                           {drop?.user?.id}
                         </p>
-                        <p className="text-lg font-medium text-emerald-600 -mt-1">
+                        <p className="text-lg font-semibold text-teal-600 -mt-1">
                           {drop?.user?.name}
                         </p>
                         <p className="text-sm font-medium text-gray-500 capitalize">
-                          <span className="font-semibold text-emerald-600">
+                          <span className="font-semibold text-teal-600">
                             {getContainers(drop?.containers)}
                           </span>{" "}
                           containers
@@ -74,7 +84,7 @@ export default function History() {
                       </div>
                     </div>
                   </div>
-                  <div className="p-3 text-emerald-400 w-[80px]">
+                  <div className="p-3 text-primary w-[80px]">
                     <div className="grid place-content-center">
                       <div className="">
                         <MdPending size="2.5em" className="mx-auto" />

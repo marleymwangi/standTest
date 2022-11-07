@@ -13,31 +13,10 @@ export const useData = () => {
 
 function useProvideData() {
   //shared app data
-  const [selUploadMode, setSelUploadMode] = useState("portfolio");
-
-  const [selStudent, setSelStudent] = useState(null);
-  const [selChatroom, setSelChatroom] = useState(null);
-  const [selDiary, setSelDiary] = useState(null);
-  const [selChatPart, setSelChatPart] = useState(null);
-  const [selPort, setSelPort] = useState(null);
+  const [selDrop, setSelDrop] = useState(null);
 
   return {
-    selUploadMode,
-    setSelUploadMode,
-
-    selChatroom,
-    setSelChatroom,
-
-    selChatPart,
-    setSelChatPart,
-
-    selStudent,
-    setSelStudent,
-
-    selDiary,
-    setSelDiary,
-
-    selPort,
-    setSelPort
+    selDrop,
+    setSelDrop,
   };
 }
