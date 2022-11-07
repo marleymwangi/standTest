@@ -18,11 +18,12 @@ const MdErrorOutline = dynamic(
 export default function History() {
   const { drops } = useUserFetch();
 
-  const getContainers = () => {
-    if (drops?.length > 0) {
+  const getContainers = (array) => {
+    console.log(array)
+    if (array?.length > 0) {
       let tmp = 0;
-      drops.forEach((d) => {
-        tmp = tmp + d?.containers?.length || 0;
+      array.forEach((d) => {
+        tmp = tmp + d?.containers || 0;
       });
       return tmp;
     } else {
@@ -44,7 +45,7 @@ export default function History() {
                 <label
                   htmlFor="trans_modal"
                   key={drop.id}
-                  className={classNames("flex", i % 2 && "bg-gray-100")}
+                  className={classNames("flex border-t border-dashed", i % 2 && "bg-gray-100")}
                 >
                   <div className="p-3 flex-1">
                     <div className="flex gap-4">
@@ -68,7 +69,7 @@ export default function History() {
                         <p className="text-sm font-medium text-gray-500 capitalize">
                           drop off:{" "}
                           <span className="font-semibold text-emerald-600">
-                            {getContainers()}
+                            {getContainers(drop?.containers)}
                           </span>{" "}
                           containers
                         </p>
