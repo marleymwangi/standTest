@@ -12,10 +12,18 @@ export default function Step1({ payload, setPayload, step, setStep }) {
 
   const change = (event) => {
     if (verifyNumber(event.target.value)) {
-      setPhoneNumber({
-        data: event.target.value,
-        state: "success",
-      });
+      if (event.target.value.length <= 9) {
+        setPhoneNumber({
+          data: event.target.value,
+          state: "success",
+        });
+      } else {
+        setPhoneNumber({
+          data: event.target.value,
+          state: "error",
+          mess: "Input is too long",
+        });
+      }
     } else {
       setPhoneNumber({
         data: event.target.value,

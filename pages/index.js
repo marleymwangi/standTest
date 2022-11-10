@@ -9,8 +9,8 @@ export default function Home() {
       <main className="min-h-[95vh] pt-20 pb-16">
         <section className="container mx-auto grid gap-10">
           <Link href="/wizard">
-            <div className="bg-primary h-[30vh] w-[30vh] mx-auto rounded-box overflow-hidden border-2  border-teal-500 flex flex-col items-center shadow-xl">
-              <div className="relative h-[80%] w-full">
+            <div className="bg-primary h-[30vh] w-[30vh] mx-auto rounded-box overflow-hidden border-4  border-teal-500 flex flex-col items-center shadow-xl">
+              <div className="relative h-[80%] w-full rounded-xl overflow-hidden">
                 <Image
                   src="/images/drop.jpg"
                   objectFit="cover"
@@ -22,8 +22,8 @@ export default function Home() {
             </div>
           </Link>
           <Link href="/history">
-            <div className="bg-primary h-[30vh] w-[30vh] mx-auto rounded-box overflow-hidden border-2  border-teal-500 flex flex-col items-center shadow-xl">
-              <div className="relative h-[80%] w-full">
+            <div className="bg-primary h-[30vh] w-[30vh] mx-auto rounded-box overflow-hidden border-4  border-teal-500 flex flex-col items-center shadow-xl">
+              <div className="relative h-[80%] w-full  rounded-xl overflow-hidden">
                 <Image
                   src="/images/history.jpg"
                   objectFit="cover"
