@@ -88,7 +88,7 @@ export default function Step3({ payload, setPayload, step, setStep }) {
             </span>
           </div>
         ))}
-      <div className="mt-10">
+      <div className="mt-10 grid">
         <button
           onClick={handleComplete}
           className={classNames(

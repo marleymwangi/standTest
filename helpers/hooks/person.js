@@ -12,6 +12,10 @@ const usePersonFetch = (phoneNumber) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    setError(null);
+  }, [phoneNumber]);
+
+  useEffect(() => {
     try {
       if (phoneNumber?.length > 0 && phoneNumber?.length === 13) {
         setPending(true);
@@ -30,6 +34,7 @@ const usePersonFetch = (phoneNumber) => {
         });
       } else {
         setPerson({});
+        setPending(false);
       }
     } catch (error) {
       console.warn("Person Hook: getDataFromDb useEffect: ", error);

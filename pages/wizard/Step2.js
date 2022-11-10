@@ -68,7 +68,7 @@ export default function Step2({ payload, setPayload, step, setStep }) {
           <FaPlus size="1.5em" />
         </button>
       </div>
-      <div className="mt-10">
+      <div className="mt-10 grid">
         <button
           onClick={handleComplete}
           className={classNames(

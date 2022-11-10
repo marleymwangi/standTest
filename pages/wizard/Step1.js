@@ -70,7 +70,6 @@ export default function Step1({ payload, setPayload, step, setStep }) {
         </p>
         {pending && (
           <div>
-            <p className="text-lg font-medium text-gray-400">User Found</p>
             <Loader component />
             <p className="font-semibold text-gray-400">... Searching</p>
           </div>
@@ -95,11 +94,11 @@ export default function Step1({ payload, setPayload, step, setStep }) {
           <p className="text-3xl font-semibold">{error}</p>
         )}
       </div>
-      <div className="mt-10">
+      <div className="mt-10 grid">
         <button
           onClick={handleComplete}
           className={classNames(
-            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto "
+            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto"
           )}
         >
           Next
