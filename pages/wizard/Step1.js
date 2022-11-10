@@ -56,7 +56,7 @@ export default function Step1({ payload, setPayload, step, setStep }) {
           onChange={change}
           placeholder="72XXXXXXX"
           value={phoneNumber?.data}
-          className="input input-lg input-primary input-bordered font-bold w-full"
+          className="input input-lg input-primary input-bordered font-semibold w-full"
         />
       </label>
       {phoneNumber.state === "error" && (
@@ -77,7 +77,7 @@ export default function Step1({ payload, setPayload, step, setStep }) {
         )}
         {!pending && person?.name && (
           <div>
-            <p className="text-lg font-medium text-gray-400">User Found</p>
+            <p className="text-sm font-medium text-gray-400">User Found</p>
             <div className="relative h-[8vh] w-[8vh] mx-auto">
               <Image
                 src="/images/user.webp"
@@ -87,8 +87,8 @@ export default function Step1({ payload, setPayload, step, setStep }) {
                 alt=""
               />
             </div>
-            <p className="text-sm font-medium text-gray-400 mt-6">User Name</p>
-            <p className="text-2xl font-medium">{person.name}</p>
+            <p className="text-lg font-medium text-gray-400 mt-6">User Name</p>
+            <p className="text-2xl font-semibold">{person.name}</p>
           </div>
         )}
         {!pending && !person?.name && error && (
