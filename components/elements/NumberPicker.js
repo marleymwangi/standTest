@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
-export default function NumberPicker({ setFunc}) {
+export default function NumberPicker({ setFunc }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function NumberPicker({ setFunc}) {
 
   return (
     <div
-      className="bg-white rounded-lg border border-primary w-full px-4 py-2 flex overflow-hidden
+      className="bg-white rounded-lg border border-primary w-full px-4 flex overflow-hidden
     items-center justify-between select-none"
     >
       <span className="p-4" onMouseDown={handleDesc}>

@@ -93,7 +93,7 @@ export default function Step3({ payload, setPayload, step, setStep }) {
           onClick={handleComplete}
           className={classNames(
             loading && "loading",
-            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto "
+            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg"
           )}
         >
           Submit

@@ -7,7 +7,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 
 export default function WizardIndex() {
-  const [step, setStep] = useState("number");
+  const [step, setStep] = useState("containers");
   const [payload, setPayload] = useState({});
 
   return (

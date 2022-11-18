@@ -72,7 +72,7 @@ export default function Step2({ payload, setPayload, step, setStep }) {
         <button
           onClick={handleComplete}
           className={classNames(
-            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto "
+            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg"
           )}
         >
           Next
