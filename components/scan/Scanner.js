@@ -21,6 +21,7 @@ export default function Scanner({ updateScanned }) {
       alert(ex.message);
       throw ex;
     }
+    updateScanned("text");
   }, []);
 
   const showScanner = () => {
@@ -30,8 +31,8 @@ export default function Scanner({ updateScanned }) {
     switch (message.type) {
       case "result":
         let txt = message.format + ": " + message.text;
-        setResultValue(txt);
         updateScanned(txt);
+        setResultValue(txt);
         break;
       case "error":
         console.log(message);
