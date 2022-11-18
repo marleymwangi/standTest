@@ -12,6 +12,13 @@ export default function Scanner({ updateScanned }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    console.log("resultValue ", resultValue)
+    if (resultValue?.length > 0) {
+      updateScanned(resultValue);
+    }
+  }, [resultValue]);
+
+  useEffect(() => {
     try {
       //Load the library on page load to speed things up.
       BarcodeScanner.loadWasm();
@@ -21,7 +28,6 @@ export default function Scanner({ updateScanned }) {
       alert(ex.message);
       throw ex;
     }
-    updateScanned("text");
   }, []);
 
   const showScanner = () => {
@@ -31,7 +37,7 @@ export default function Scanner({ updateScanned }) {
     switch (message.type) {
       case "result":
         let txt = message.format + ": " + message.text;
-        updateScanned(txt);
+        console.log("switch text ", txt)
         setResultValue(txt);
         break;
       case "error":
