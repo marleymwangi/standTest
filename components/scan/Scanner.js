@@ -1,4 +1,4 @@
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BarcodeScanner } from "dynamsoft-javascript-barcode";
 //custom
 import BarcodeScannerComponent from "./BarcodeScanner";
@@ -12,6 +12,7 @@ export default function Scanner({ updateScanned }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    console.log("resultValue ", resultValue)
     if (resultValue?.length > 0) {
       updateScanned(resultValue);
     }

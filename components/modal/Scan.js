@@ -9,17 +9,21 @@ export default function ModalScan() {
   const [scanned, setScanned] = useState([]);
 
   const updateScanned = (str) => {
+    console.log("scanned ", str)
     if (scanned.length > 0) {
       if (!scanned.includes(str)) {
         let tmp = scanned;
         tmp.push(str);
+        console.log("tmp ", tmp)
         setScanned(tmp);
       }
     } else {
       let tmp = scanned;
       tmp.push(str);
+      console.log("tmp ", tmp)
       setScanned(tmp);
     }
+    console.log("scanned ", scanned)
   };
 
   const handleCloseModal = () => {
