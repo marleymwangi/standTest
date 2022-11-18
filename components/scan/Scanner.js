@@ -31,9 +31,7 @@ export default function Scanner({ updateScanned }) {
       case "result":
         let txt = message.format + ": " + message.text;
         setResultValue(txt);
-        if (txt?.length > 0) {
-          updateScanned(txt);
-        }
+        updateScanned(txt);
         break;
       case "error":
         console.log(message);
