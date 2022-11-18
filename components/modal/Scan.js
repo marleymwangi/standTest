@@ -1,16 +1,25 @@
 import dynamic from "next/dynamic";
-import { signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 //custom
 import Scanner from "../scan/Scanner";
 //dynamic
 const HiBell = dynamic(async () => (await import("react-icons/hi")).HiBell);
 
 export default function ModalScan() {
-  const { data: session } = useSession();
+  const [scanned, setScanned] = useState([]);
 
-  const handleLogout = () => {
-    signOut();
-    handleCloseModal();
+  const updateScanned = (str) => {
+    if (scanned.length > 0) {
+      if (!scanned.includes(str)) {
+        let tmp = scanned;
+        tmp.push(str);
+        setScanned(tmp);
+      }
+    } else {
+      let tmp = scanned;
+      tmp.push(str);
+      setScanned(tmp);
+    }
   };
 
   const handleCloseModal = () => {
@@ -31,8 +40,19 @@ export default function ModalScan() {
               ✕
             </label>
           </div>
-          <div className="grid gap-4 w-full text-center text-primary font-poppins">
-            <Scanner />
+          <div className="grid overflow-hidden pb-[10vh]">
+            <Scanner updateScanned={updateScanned} />
+            <div className="flex flex-wrap gap-2 justify-center text-white uppercase font-medium tracking-wide mt-5">
+              {scanned?.length > 0 &&
+                scanned.map((scan, i) => (
+                  <div
+                    key={i}
+                    className="bg-primary rounded-full px-4 py-3 text-lg"
+                  >
+                    {scan}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       </div>

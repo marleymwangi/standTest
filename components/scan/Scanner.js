@@ -5,11 +5,17 @@ import BarcodeScannerComponent from "./BarcodeScanner";
 
 import React from "react";
 
-export default function Scanner() {
+export default function Scanner({ updateScanned }) {
   const [libLoaded, setLibLoaded] = useState(null);
   const [resultValue, setResultValue] = useState(null);
   const [bShowScanner, setBShowScanner] = useState(null);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (resultValue?.length > 0) {
+      updateScanned(resultValue);
+    }
+  }, [resultValue]);
 
   useEffect(() => {
     try {
@@ -42,7 +48,7 @@ export default function Scanner() {
   };
 
   return (
-    <div className="h-[40vh] w-full pb-[10vh]">
+    <div className="relative w-full h-full">
       {!libLoaded ? <span>Loading Library...</span> : ""}
       {bShowScanner ? (
         <BarcodeScannerComponent appendMessage={appendMessage} />
@@ -50,17 +56,19 @@ export default function Scanner() {
         ""
       )}
       {error?.length > 0 && (
-        <p className="text-error text-sm italic text-center mt-1">{error}</p>
+        <p className="text-error italic font-semibold text-center mt-5">
+          {error}
+        </p>
       )}
-      {bShowScanner ? (
-        <input
-          type="text"
-          value={resultValue}
-          readOnly={true}
-          id="resultText"
-        />
+      <p className="text-sm font-semibold text-center mt-1 text-teal-400">
+        Scanned
+      </p>
+      {bShowScanner && resultValue?.length > 0 ? (
+        <p className="text-2xl italic font-semibold text-center text-teal-600">
+          {resultValue}
+        </p>
       ) : (
-        ""
+        <div className="h-8" />
       )}
     </div>
   );
