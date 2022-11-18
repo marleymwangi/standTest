@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 //custom
-import Scanner from "../scan/Scanner";
+import Scanner from "../scan/QrScanner";
 //dynamic
 const HiBell = dynamic(async () => (await import("react-icons/hi")).HiBell);
 

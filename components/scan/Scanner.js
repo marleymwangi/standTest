@@ -66,11 +66,11 @@ export default function Scanner({ updateScanned }) {
         Scanned
       </p>
       {bShowScanner && resultValue?.length > 0 ? (
-        <p className="text-2xl italic font-semibold text-center text-teal-600">
+        <p className="text-lg italic font-semibold text-center text-teal-600">
           {resultValue}
         </p>
       ) : (
-        <div className="h-8" />
+        <div className="h-7" />
       )}
     </div>
   );
