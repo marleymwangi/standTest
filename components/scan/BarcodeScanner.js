@@ -57,7 +57,7 @@ class BarcodeScannerComponent extends Component {
     return false;
   }
   render() {
-    return <div className="w-full h-[50vh]" ref={this.elRef}></div>;
+    return <div className="w-full h-[40vh]" ref={this.elRef}></div>;
   }
 }
 

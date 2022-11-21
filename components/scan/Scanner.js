@@ -12,12 +12,6 @@ export default function Scanner() {
   const [error, setError] = useState("");
   const [scanned, setScanned] = useState([]);
 
-  useEffect(() => {
-    console.log("resultValue ", resultValue);
-    if (resultValue?.length > 0) {
-      updateScanned(resultValue);
-    }
-  }, [resultValue]);
 
   useEffect(() => {
     try {
@@ -41,6 +35,7 @@ export default function Scanner() {
         let txt = message.format + ": " + message.text;
         console.log("switch text ", txt);
         setResultValue(txt);
+        updateScanned(txt);
         break;
       case "error":
         console.log(message);
@@ -90,9 +85,8 @@ export default function Scanner() {
       {bShowScanner && resultValue?.length > 0 ? (
         <>
           <p className="text-sm font-semibold text-center mt-1 text-teal-400">
-            Read
+            Scanned
           </p>
-          v
           <p className="text-lg italic font-semibold text-center text-teal-600">
             {resultValue}
           </p>
