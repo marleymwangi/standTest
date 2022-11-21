@@ -8,28 +8,6 @@ const HiBell = dynamic(async () => (await import("react-icons/hi")).HiBell);
 export default function ModalScan() {
   const [scanned, setScanned] = useState([]);
 
-  useEffect(() => {
-    console.log("scanned ", scanned)
-  }, [scanned, scanned?.length]);
-
-  const updateScanned = (str) => {
-    console.log("scanned ", str);
-    if (scanned.length > 0) {
-      if (!scanned.includes(str)) {
-        let tmp = scanned;
-        tmp.push(str);
-        console.log("tmp ", tmp);
-        setScanned(tmp);
-      }
-    } else {
-      let tmp = scanned;
-      tmp.push(str);
-      console.log("tmp ", tmp);
-      setScanned(tmp);
-    }
-    console.log("scanned ", scanned);
-  };
-
   const handleCloseModal = () => {
     document.getElementById("scan_modal").checked = false;
   };
@@ -49,18 +27,7 @@ export default function ModalScan() {
             </label>
           </div>
           <div className="grid overflow-hidden pb-[10vh]">
-            <Scanner updateScanned={updateScanned} />
-            <div className="flex flex-wrap gap-2 justify-center text-white uppercase font-medium tracking-wide mt-5">
-              {scanned?.length > 0 &&
-                scanned.map((scan, i) => (
-                  <div
-                    key={i}
-                    className="bg-primary rounded-full px-4 py-3 text-lg"
-                  >
-                    {scan}
-                  </div>
-                ))}
-            </div>
+            <Scanner />
           </div>
         </div>
       </div>
