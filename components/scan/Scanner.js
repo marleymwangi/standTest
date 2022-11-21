@@ -7,16 +7,8 @@ import React from "react";
 
 export default function Scanner({ updateScanned }) {
   const [libLoaded, setLibLoaded] = useState(null);
-  const [resultValue, setResultValue] = useState(null);
   const [bShowScanner, setBShowScanner] = useState(null);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    console.log("resultValue ", resultValue)
-    if (resultValue?.length > 0) {
-      updateScanned(resultValue);
-    }
-  }, [resultValue]);
 
   useEffect(() => {
     try {
@@ -33,12 +25,13 @@ export default function Scanner({ updateScanned }) {
   const showScanner = () => {
     setBShowScanner(true);
   };
+
   const appendMessage = (message) => {
     switch (message.type) {
       case "result":
         let txt = message.format + ": " + message.text;
-        console.log("switch text ", txt)
-        setResultValue(txt);
+        console.log("switch text ", txt);
+        updateScanned(txt);
         break;
       case "error":
         console.log(message);
@@ -61,16 +54,6 @@ export default function Scanner({ updateScanned }) {
         <p className="text-error italic font-semibold text-center mt-5">
           {error}
         </p>
-      )}
-      <p className="text-sm font-semibold text-center mt-1 text-teal-400">
-        Scanned
-      </p>
-      {bShowScanner && resultValue?.length > 0 ? (
-        <p className="text-lg italic font-semibold text-center text-teal-600">
-          {resultValue}
-        </p>
-      ) : (
-        <div className="h-7" />
       )}
     </div>
   );
