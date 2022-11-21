@@ -1,29 +1,33 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 //custom
-import Scanner from "../scan/QrScanner";
+import Scanner from "../scan/Scanner";
 //dynamic
 const HiBell = dynamic(async () => (await import("react-icons/hi")).HiBell);
 
 export default function ModalScan() {
   const [scanned, setScanned] = useState([]);
 
+  useEffect(() => {
+    console.log("scanned ", scanned)
+  }, [scanned, scanned?.length]);
+
   const updateScanned = (str) => {
-    console.log("scanned ", str)
+    console.log("scanned ", str);
     if (scanned.length > 0) {
       if (!scanned.includes(str)) {
         let tmp = scanned;
         tmp.push(str);
-        console.log("tmp ", tmp)
+        console.log("tmp ", tmp);
         setScanned(tmp);
       }
     } else {
       let tmp = scanned;
       tmp.push(str);
-      console.log("tmp ", tmp)
+      console.log("tmp ", tmp);
       setScanned(tmp);
     }
-    console.log("scanned ", scanned)
+    console.log("scanned ", scanned);
   };
 
   const handleCloseModal = () => {
