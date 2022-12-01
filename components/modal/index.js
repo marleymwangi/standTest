@@ -1,5 +1,4 @@
 import ModalDrop from "./Drop";
-import ModalScan from "./Scan";
 import ModalUser from "./UserMenu";
 
 export default function Modals() {
@@ -7,7 +6,6 @@ export default function Modals() {
     <div>
       <ModalUser />
       <ModalDrop />
-      <ModalScan />
     </div>
   );
 }

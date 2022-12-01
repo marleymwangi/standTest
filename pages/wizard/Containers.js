@@ -6,11 +6,12 @@ import { classNames } from "../../helpers/utility";
 export default function Containers({ data, state, message, updateFunc }) {
   const [scan, setScan] = useState("No result");
   const [brand, setBrand] = useState("");
+  const [prod, setProd] = useState("");
   const [containers, setContainers] = useState("");
 
-  const change = (event) => {
+  const change = (event, setFunc) => {
     if (event.target.value !== "default") {
-      setBrand(event.target.value);
+      setFunc(event.target.value);
     }
   };
 
@@ -24,27 +25,20 @@ export default function Containers({ data, state, message, updateFunc }) {
     updateFunc();
   }, [containers]);
 
-  const getProducts = () => {
-    switch (brand) {
-      case "cocacola":
-        return [{ text: "Fanta", value: "fanta" }];
-      case "bidco":
-        return [{ text: "Elianto", value: "elianto" }];
-    }
-  };
-
   let brands = [
     { text: "Coca Cola", value: "cocacola" },
     { text: "Bidco", value: "bidco" },
   ];
-
-  let products = getProducts();
+  let productsDict = {
+    cocacola: [{ text: "Fanta", value: "fanta" }],
+    bidco: [{ text: "Elianto", value: "elianto" }],
+  };
 
   return (
     <div className="mx-auto w-full max-w-sm grid gap-3">
       <p className="text-primary text-center">Select Brand</p>
       <select
-        onChange={change}
+        onChange={(e) => change(e, setBrand)}
         defaultValue={"default"}
         className={classNames(
           "select w-full",
@@ -61,7 +55,7 @@ export default function Containers({ data, state, message, updateFunc }) {
         ))}
       </select>
       <select
-        onChange={change}
+        onChange={(e) => change(e, setProd)}
         defaultValue={"default"}
         className={classNames(
           "select w-full",
@@ -71,14 +65,13 @@ export default function Containers({ data, state, message, updateFunc }) {
         <option disabled value={"default"}>
           Select Product
         </option>
-        {products?.length > 0 &&
-          products.map((p, i) => (
+        {productsDict[brand]?.length > 0 &&
+          productsDict[brand].map((p, i) => (
             <option key={i} value={p.value}>
               {p.text}
             </option>
           ))}
       </select>
-      <label htmlFor="scan_modal" className="btn btn-primary shadow-md">Scan</label>
       <p className="text-primary text-center">No. of Container</p>
       <NumberPicker setFunc={setContainers} />
       {data?.name?.length < 1 && (
