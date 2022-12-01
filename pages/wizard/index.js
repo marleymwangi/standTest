@@ -15,7 +15,21 @@ export default function WizardIndex() {
       <main className="min-h-[95vh] pt-20 pb-16">
         <section className="container overflow-hidden mx-auto grid gap-16 px-2">
           <div className="grid gap-2">
-            <p className="font-medium text-teal-700">Step 1: Find Customer</p>
+            {
+              step === "number" &&(
+                <p className="font-medium text-teal-700">Step 1: Find Customer</p>
+              )
+            }
+            {
+              step === "containers" &&(
+                <p className="font-medium text-teal-700">Step 2: Input Containers</p>
+              )
+            }
+            {
+              step === "confirm" &&(
+                <p className="font-medium text-teal-700">Step 3: Submit Dropoff</p>
+              )
+            }
             <div className="grid grid-cols-3 gap-1">
               <div className={classNames("h-2 w-full rounded", step === "number" ? "bg-primary" : "bg-gray-300")}/>
               <div className={classNames("h-2 w-full rounded", step === "containers" ? "bg-primary" : "bg-gray-300")}/>
