@@ -6,8 +6,8 @@ import { AuthGuard } from "../components/elements/AuthGuard";
 import { classNames } from "../helpers/utility";
 import { useData } from "../context/dataContext";
 //dynamic
-const MdPending = dynamic(
-  async () => (await import("react-icons/md")).MdPending
+const MdOutlinePending = dynamic(
+  async () => (await import("react-icons/md")).MdOutlinePending
 );
 const MdDoneOutline = dynamic(
   async () => (await import("react-icons/md")).MdDoneOutline
@@ -18,7 +18,7 @@ const MdErrorOutline = dynamic(
 
 export default function History() {
   const { setSelDrop } = useData();
-  const { drops } = useUserFetch();
+  const { drops, dropsPending } = useUserFetch();
 
   const getContainers = (array) => {
     if (array?.length > 0) {
@@ -43,8 +43,15 @@ export default function History() {
           <div className="bg-white rounded-box overflow-hidden">
             <div className="flex bg-primary text-white font-bold text-xs uppercase">
               <div className="p-3 text-center flex-1">User</div>
-              <div className="p-3 w-[80px]">Voucher</div>
+              <div className="p-3 w-[80px]">Points</div>
             </div>
+            {
+              dropsPending && (
+                <div className="flex-1">
+                  <p className="font-semibold text-center py-10 text-gray-400">Loading</p>
+                </div>
+              )
+            }
             {drops &&
               drops.map((drop, i) => (
                 <label
@@ -52,7 +59,7 @@ export default function History() {
                   htmlFor="trans_modal"
                   onClick={() => handleClick(drop)}
                   className={classNames(
-                    "flex border-t border-x border-dashed font-poppins",
+                    "flex border-t border-x border-dashed border-primary font-poppins",
                     i % 2 && "bg-gray-100"
                   )}
                 >
@@ -72,7 +79,7 @@ export default function History() {
                           </span>{" "}
                           {drop?.user?.id}
                         </p>
-                        <p className="text-lg font-semibold text-teal-600 -mt-1">
+                        <p className="text-lg font-medium text-teal-600 -mt-1">
                           {drop?.user?.name}
                         </p>
                         <p className="text-sm font-medium text-gray-500 capitalize">
@@ -86,19 +93,37 @@ export default function History() {
                   </div>
                   <div className="p-3 text-primary w-[80px]">
                     <div className="grid place-content-center">
-                      <div className="">
-                        <MdPending size="2.5em" className="mx-auto" />
-                        <p className="text-xs text-center uppercase font-bold">
-                          pending
-                        </p>
-                      </div>
+                      {drop.status === "pending" && (
+                        <div className="text-info">
+                          <MdOutlinePending size="2em" className="mx-auto" />
+                          <p className="text-xs text-center uppercase font-medium">
+                            pending
+                          </p>
+                        </div>
+                      )}
+                      {drop.status === "complete" && (
+                        <div className="text-success">
+                          <MdDoneOutline size="2em" className="mx-auto" />
+                          <p className="text-xs text-center uppercase font-medium">
+                            complete
+                          </p>
+                        </div>
+                      )}
+                      {drop.status === "error" && (
+                        <div className="text-error">
+                          <MdErrorOutline size="2em" className="mx-auto" />
+                          <p className="text-xs text-center uppercase font-medium">
+                            error
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </label>
               ))}
             <div className="flex bg-primary text-white font-bold text-xs uppercase">
               <div className="p-3 text-center flex-1">User</div>
-              <div className="p-3 w-[80px]">Voucher</div>
+              <div className="p-3 w-[80px]">Points</div>
             </div>
           </div>
         </section>

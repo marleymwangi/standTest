@@ -44,7 +44,7 @@ export default function ModalDrop() {
             <p className="font-medium">{selDrop?.user?.name}</p>
             <p className="text-gray-400">Phone Number</p>{" "}
             <p className="font-medium">{selDrop?.user?.id}</p>
-            <p className="text-gray-400">Voucher Status</p>{" "}
+            <p className="text-gray-400">Points Allocation</p>{" "}
             <p className="font-medium capitalize">{selDrop?.status}</p>
             <p className="text-gray-400">Location</p>{" "}
             <p className="font-medium capitalize">Naivas Location1</p>
