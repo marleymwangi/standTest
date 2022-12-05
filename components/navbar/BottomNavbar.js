@@ -45,8 +45,8 @@ export default function BottomNavbar() {
           iconOff={RiBookletLine}
         />
         <NavItem
-          href="/"
-          selected={router.pathname.indexOf("/student/") === 0}
+          href="/user"
+          selected={router.pathname.indexOf("/user") === 0}
           iconOn={BsPeopleFill}
           iconOff={BsPeople}
         />

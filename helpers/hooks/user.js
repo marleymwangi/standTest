@@ -18,12 +18,15 @@ import { isEmpty } from "../utility";
 const useUserFetch = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [drops, setDrops] = useState([]);
 
   const [userPending, setUserPending] = useState(true);
+  const [usersPending, setUsersPending] = useState(false);
   const [dropsPending, setDropsPending] = useState(true);
 
   const [userError, setUserError] = useState(null);
+  const [usersError, setUsersError] = useState(null);
   const [dropsError, setDropsError] = useState(null);
 
   useEffect(() => {
@@ -66,6 +69,33 @@ const useUserFetch = () => {
       setUserPending(false);
     }
   }, [session, session?.user?.id]);
+
+  useEffect(() => {
+    try {
+      let queryRef = query(collection(db, "users"));
+
+      return onSnapshot(
+        queryRef,
+        (snapshot) => {
+          let tmp = [];
+          snapshot.forEach((doc) => {
+            let per = { id: doc.id, ...doc.data() };
+            tmp.push(per);
+          });
+
+          setUsers(tmp);
+          setUsersError(false);
+        },
+        (error) => {
+          console.info("User Hook: getUserNotifications useEffect: ", error);
+        }
+      );
+    } catch (error) {
+      console.warn("Person Hook: getDataFromDb useEffect: ", error);
+      setUsersError(error);
+      setUsersPending(false);
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -144,12 +174,15 @@ const useUserFetch = () => {
 
   return {
     user,
+    users,
     drops,
 
     userPending,
+    usersPending,
     dropsPending,
 
     userError,
+    usersError,
     dropsError,
     updateNotId,
   };

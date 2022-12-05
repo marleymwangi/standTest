@@ -44,10 +44,8 @@ export default function TopNavbar() {
                   <ImageLoader src={selChatPart?.image} />
                 </div>
               </div>
-            ) : router.pathname.indexOf("/chats/") === 0 ? (
-              router.pathname.slice(7)
-            ) : router.pathname.indexOf("/student/") === 0 ? (
-              router.pathname.slice(9)
+            ) : router.pathname.indexOf("/user/") === 0 ? (
+              router.pathname.slice(6)
             ) : (
               router.pathname.slice(1)
             )}

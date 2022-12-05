@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 //hooks
-import useUserFetch from "../helpers/hooks/user";
+import usePersonFetch from "../../helpers/hooks/person";
 //custom
-import { AuthGuard } from "../components/elements/AuthGuard";
-import { classNames } from "../helpers/utility";
-import { useData } from "../context/dataContext";
+import { AuthGuard } from "../../components/elements/AuthGuard";
+import { classNames } from "../../helpers/utility";
 //dynamic
 const MdOutlinePending = dynamic(
   async () => (await import("react-icons/md")).MdOutlinePending
@@ -16,48 +16,60 @@ const MdErrorOutline = dynamic(
   async () => (await import("react-icons/md")).MdErrorOutline
 );
 
-export default function History() {
-  const { setSelDrop } = useData();
-  const { drops, dropsPending } = useUserFetch();
+export default function Profile() {
+  const router = useRouter();
+  const { id } = router.query;
 
-  const getContainers = (array) => {
-    if (array?.length > 0) {
-      let tmp = 0;
-      array.forEach((d) => {
-        tmp = tmp + d?.containers || 0;
-      });
-      return tmp;
-    } else {
-      return 0;
-    }
-  };
-
-  const handleClick = (d) => {
-    setSelDrop(d);
-  };
+  const { person, transactions, transPending } = usePersonFetch(
+    `+${id?.trim()}`
+  );
 
   return (
     <AuthGuard>
-      <main className="min-h-[95vh] pt-20 pb-16">
+      <main className="min-h-[95vh] pt-20 pb-16 px-6 flex flex-col gap-4 items-start">
+        <section className="flex flex-col items-center container mx-auto">
+          <div className="avatar">
+            <div className="w-24 mask mask-squircle">
+              <img src="/images/user.webp" alt="" />
+            </div>
+          </div>
+          <p className="text-primary text-lg">
+            {!person?.name && (
+              <span className="bg-gray-300 animate-pulse rounded w-12 h-5" />
+            )}
+            {person?.name && <span>{person?.name}</span>}
+          </p>
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            {!person?.id && (
+              <span className="bg-gray-300 animate-pulse rounded w-7 h-5" />
+            )}
+            {person?.id && <span>{person?.id}</span>}
+            {" . Points "}
+            {!person?.points && (
+              <span className="bg-gray-300 animate-pulse rounded w-7 h-5" />
+            )}
+            {person?.points && <span>{person?.points}</span>}
+          </div>
+        </section>
         <section className="container mx-auto">
           <div className="bg-white rounded-box overflow-hidden">
             <div className="flex bg-primary text-white font-bold text-xs uppercase">
-              <div className="p-3 text-center flex-1">User</div>
-              <div className="p-3 w-[80px]">Points</div>
+              <div className="p-3 text-center flex-1">Transaction</div>
+              <div className="p-3 w-[80px]">Status</div>
             </div>
-            {
-              dropsPending && (
-                <div className="flex-1">
-                  <p className="font-semibold text-center py-10 text-gray-400">Loading</p>
-                </div>
-              )
-            }
-            {drops &&
-              drops.map((drop, i) => (
+            {transPending && (
+              <div className="flex-1">
+                <p className="font-semibold text-center py-6 text-gray-400">
+                  Loading
+                </p>
+              </div>
+            )}
+            {transactions &&
+              transactions.map((transaction, i) => (
                 <label
-                  key={drop.id}
+                  key={transaction.id}
                   htmlFor="trans_modal"
-                  onClick={() => handleClick(drop)}
+                  onClick={() => handleClick(transaction)}
                   className={classNames(
                     "flex border-x border-primary font-poppins",
                     i % 2 && "bg-gray-100"
@@ -65,35 +77,31 @@ export default function History() {
                 >
                   <div className="p-3 flex-1 border-t border-r border-dashed">
                     <div className="flex gap-4">
-                      <div className="grid place-content-center">
-                        <div className="avatar">
-                          <div className="w-12 h-12 rounded-box">
-                            <img src="/images/user.webp" alt=""/>
-                          </div>
-                        </div>
-                      </div>
                       <div className="">
                         <p className="text-xs font-medium text-teal-600">
                           <span className="text-gray-400 capitalize">
-                            phone :
+                            File Id :
                           </span>{" "}
-                          {drop?.user?.id}
+                          {transaction?.file_id}
                         </p>
-                        <p className="text-lg font-medium text-teal-600 -mt-1">
-                          {drop?.user?.name}
-                        </p>
-                        <p className="text-sm font-medium text-gray-500 capitalize">
-                          <span className="font-semibold text-teal-600">
-                            {getContainers(drop?.containers)}
+                        <p className="text-xs font-medium text-teal-600">
+                          <span className="text-gray-400 capitalize">
+                            Amount :
                           </span>{" "}
-                          containers
+                          {transaction?.paid_amount}
+                        </p>
+                        <p className="text-xs font-medium text-teal-600">
+                          <span className="text-gray-400 capitalize">
+                            Provider Ref :
+                          </span>{" "}
+                          {transaction?.provider_reference}
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="p-3 text-primary border-t border-dashed w-[80px]">
                     <div className="grid place-content-center h-full">
-                      {drop.status === "pending" && (
+                      {transaction.status !== "Completed" && (
                         <div className="text-info">
                           <MdOutlinePending size="1.5em" className="mx-auto" />
                           <p className="text-xs text-center uppercase font-semibold">
@@ -101,7 +109,7 @@ export default function History() {
                           </p>
                         </div>
                       )}
-                      {drop.status === "complete" && (
+                      {transaction.status === "Completed" && (
                         <div className="text-success">
                           <MdDoneOutline size="1.5em" className="mx-auto" />
                           <p className="text-xs text-center uppercase font-semibold">
@@ -109,7 +117,7 @@ export default function History() {
                           </p>
                         </div>
                       )}
-                      {drop.status === "error" && (
+                      {transaction.status === "error" && (
                         <div className="text-error">
                           <MdErrorOutline size="1.5em" className="mx-auto" />
                           <p className="text-xs text-center uppercase font-semibold">

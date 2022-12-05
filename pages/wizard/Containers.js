@@ -3,11 +3,10 @@ import { useState, useEffect } from "react";
 import NumberPicker from "../../components/elements/NumberPicker";
 import { classNames } from "../../helpers/utility";
 
-export default function Containers({ data, state, message, updateFunc }) {
-  const [scan, setScan] = useState("No result");
+export default function Containers({ data, updateFunc }) {
   const [brand, setBrand] = useState("");
   const [prod, setProd] = useState("");
-  const [containers, setContainers] = useState("");
+  const [containers, setContainers] = useState(0);
 
   const change = (event, setFunc) => {
     if (event.target.value !== "default") {
@@ -16,9 +15,14 @@ export default function Containers({ data, state, message, updateFunc }) {
   };
 
   useEffect(() => {
-    data.name = brand;
+    data.brand   = brand;
     updateFunc();
   }, [brand]);
+
+  useEffect(() => {
+    data.product = prod;
+    updateFunc();
+  }, [prod]);
 
   useEffect(() => {
     data.containers = containers;
@@ -102,7 +106,7 @@ export default function Containers({ data, state, message, updateFunc }) {
 
   return (
     <div className="mx-auto w-full max-w-sm grid gap-3">
-      <p className="text-primary text-center">Select Brand</p>
+      <p className="text-primary text-xs text-center">Select Brand</p>
       <select
         onChange={(e) => change(e, setBrand)}
         defaultValue={"default"}
@@ -138,13 +142,8 @@ export default function Containers({ data, state, message, updateFunc }) {
             </option>
           ))}
       </select>
-      <p className="text-primary text-center">No. of Container</p>
+      <p className="text-primary text-xs text-center">No. of Container</p>
       <NumberPicker setFunc={setContainers} />
-      {data?.name?.length < 1 && (
-        <p className="text-error text-sm italic text-center mt-1">
-          Please enter valid Input. Select a Brand
-        </p>
-      )}
     </div>
   );
 }

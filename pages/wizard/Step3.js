@@ -9,7 +9,7 @@ import { classNames, isEmpty } from "../../helpers/utility";
 //dynamic
 const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
 
-export default function Step3({ payload, setPayload, step, setStep }) {
+export default function Step3({ payload, setPayload, setStep }) {
   const { createDropOffTransaction } = usePersonFetch(payload?.user?.id);
   const [loading, setLoading] = useState(false);
 
@@ -22,10 +22,26 @@ export default function Step3({ payload, setPayload, step, setStep }) {
 
   const companyName = (name) => {
     switch (name) {
-      case "pernod":
+      case "pernodricard":
         return "Pernod";
       case "cocacola":
         return "Coca Cola";
+      case "bidco":
+        return "Bidco";
+      case "unilever":
+        return "Unilever";
+      case "procterngamble":
+        return "Procter & Gamble";
+      case "brookside":
+        return "Brookside";
+      case "eabl":
+        return "EABL";
+      case "dairyland":
+        return "Dairyland";
+      case "kenyaoriginals":
+        return "Kenya Originals";
+      case "other":
+        return "Other";
     }
   };
 
@@ -81,7 +97,7 @@ export default function Step3({ payload, setPayload, step, setStep }) {
             key={i}
           >
             <span className="border border-dashed p-4 text-center">
-              {companyName(c?.name)}
+              {companyName(c?.brand)}
             </span>
             <span className="border border-dashed p-4 text-center">
               {c?.containers}

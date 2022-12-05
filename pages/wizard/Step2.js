@@ -8,8 +8,8 @@ import { classNames } from "../../helpers/utility";
 //dynamic
 const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
 
-export default function Step2({ payload, setPayload, step, setStep }) {
-  const { person, pending, error } = usePersonFetch(payload?.user?.id);
+export default function Step2({ payload, setPayload, setStep }) {
+  const { pending, error } = usePersonFetch(payload?.user?.id);
   const [brandContainers, setBrandContainers] = useState({
     data: [],
     state: null,
@@ -20,23 +20,52 @@ export default function Step2({ payload, setPayload, step, setStep }) {
     setUpdate(!update);
   };
 
-  const addContainer = () => {
+  const addContainer = (e) => {
+    e.preventDefault();
     let tmp = [
       ...brandContainers.data,
       {
-        name: "",
-        containers: "",
+        brand: "",
+        containers: 0,
       },
     ];
     setBrandContainers({
       data: tmp,
-      state: "error",
-      mess: "Select Brand",
     });
   };
 
-  const handleComplete = () => {
-    if (!pending && !error && brandContainers?.data?.length > 0) {
+  const validate = () => {
+    let res = brandContainers?.data.some((containers) => {
+      if (containers.brand?.length < 1) {
+        setBrandContainers({
+          ...brandContainers,
+          state: "error",
+          mess: "Containers missing brand",
+        });
+        return false;
+      } else if (containers.containers < 1) {
+        setBrandContainers({
+          ...brandContainers,
+          state: "error",
+          mess: "Containers cannot be 0",
+        });
+        return false;
+      } else {
+        setBrandContainers({
+          ...brandContainers,
+          state: "sucess",
+          mess: "",
+        });
+        return true;
+      }
+    });
+    return res;
+  };
+
+  const handleComplete = (e) => {
+    e.preventDefault();
+    let isValid = validate();
+    if (!pending && !error && brandContainers?.data?.length > 0 && isValid) {
       setPayload({ ...payload, containers: brandContainers.data });
       setStep("confirm");
     }
@@ -60,6 +89,13 @@ export default function Step2({ payload, setPayload, step, setStep }) {
             </div>
           ))}
       </div>
+      {brandContainers?.state === "error" && (
+        <p className="text-error text-sm italic text-center mt-1">
+          {`Please enter valid Input. ${
+            brandContainers.mess ? brandContainers.mess : ""
+          }`}
+        </p>
+      )}
       <div className="grid place-content-center mt-10">
         <button
           onClick={addContainer}

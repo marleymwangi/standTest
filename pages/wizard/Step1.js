@@ -6,7 +6,7 @@ import usePersonFetch from "../../helpers/hooks/person";
 import Loader from "../../components/elements/Loader";
 import { classNames, isEmpty, verifyNumber } from "../../helpers/utility";
 
-export default function Step1({ payload, setPayload, step, setStep }) {
+export default function Step1({ payload, setPayload, setStep }) {
   const [phoneNumber, setPhoneNumber] = useState({ data: "", state: null });
   const { person, pending, error } = usePersonFetch(`+254${phoneNumber?.data}`);
 
@@ -37,7 +37,8 @@ export default function Step1({ payload, setPayload, step, setStep }) {
     //console.log(person);
   }, [person]);
 
-  const handleComplete = () => {
+  const handleComplete = (e) => {
+    e.preventDefault();
     if (!pending && !error && !isEmpty(person)) {
       setPayload({ ...payload, user: person });
       setStep("containers");
@@ -46,7 +47,7 @@ export default function Step1({ payload, setPayload, step, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-lg text-teal-700 font-medium text-center">
+      <p className="text-sm text-teal-700 font-medium text-center mb-3">
         Customer Phone Number
       </p>
       <label className="input-group input-group-lg">
@@ -56,7 +57,7 @@ export default function Step1({ payload, setPayload, step, setStep }) {
           onChange={change}
           placeholder="72XXXXXXX"
           value={phoneNumber?.data}
-          className="input input-lg input-primary input-bordered font-semibold w-full"
+          className="input input-lg input-primary input-bordered text-primary font-semibold w-full"
         />
       </label>
       {phoneNumber.state === "error" && (
@@ -76,8 +77,8 @@ export default function Step1({ payload, setPayload, step, setStep }) {
         )}
         {!pending && person?.name && (
           <div>
-            <p className="text-sm font-medium text-gray-400">User Found</p>
-            <div className="relative h-[8vh] w-[8vh] mx-auto">
+            <p className="text-sm font-light text-primary">User Found</p>
+            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto">
               <Image
                 src="/images/user.webp"
                 className="object-contain"
@@ -86,8 +87,8 @@ export default function Step1({ payload, setPayload, step, setStep }) {
                 alt=""
               />
             </div>
-            <p className="text-lg font-medium text-gray-400 mt-6">User Name</p>
-            <p className="text-2xl font-semibold">{person.name}</p>
+            <p className="text-lg font-medium text-gray-400 mt-2">User Name</p>
+            <p className="text-2xl font-semibold text-primary">{person.name}</p>
           </div>
         )}
         {!pending && !person?.name && error && (
