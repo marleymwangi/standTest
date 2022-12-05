@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Image from "next/image";
 //hooks
 import useUserFetch from "../helpers/hooks/user";
 //custom
@@ -45,13 +46,13 @@ export default function History() {
               <div className="p-3 text-center flex-1">User</div>
               <div className="p-3 w-[80px]">Points</div>
             </div>
-            {
-              dropsPending && (
-                <div className="flex-1">
-                  <p className="font-semibold text-center py-10 text-gray-400">Loading</p>
-                </div>
-              )
-            }
+            {dropsPending && (
+              <div className="flex-1">
+                <p className="font-semibold text-center py-10 text-gray-400">
+                  Loading
+                </p>
+              </div>
+            )}
             {drops &&
               drops.map((drop, i) => (
                 <label
@@ -66,10 +67,13 @@ export default function History() {
                   <div className="p-3 flex-1 border-t border-r border-dashed">
                     <div className="flex gap-4">
                       <div className="grid place-content-center">
-                        <div className="avatar">
-                          <div className="w-12 h-12 rounded-box">
-                            <img src="/images/user.webp" alt=""/>
-                          </div>
+                        <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+                          <Image
+                            src="/images/user.webp"
+                            className="object-contain"
+                            layout="fill"
+                            alt=""
+                          />
                         </div>
                       </div>
                       <div className="">

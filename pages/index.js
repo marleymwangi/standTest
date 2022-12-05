@@ -9,7 +9,7 @@ export default function Home() {
       <main className="min-h-[95vh] pt-20 pb-16">
         <section className="container mx-auto grid gap-10">
           <Link href="/wizard">
-            <div className="bg-primary h-[30vh] w-[30vh] mx-auto rounded-box overflow-hidden border-4  border-teal-500 flex flex-col items-center shadow-xl">
+            <div className="bg-primary h-[30vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-teal-500 flex flex-col items-center shadow-xl">
               <div className="relative h-[80%] w-full rounded-xl overflow-hidden">
                 <Image
                   src="/images/drop.jpg"
@@ -18,11 +18,11 @@ export default function Home() {
                   alt=""
                 />
               </div>
-              <p className="text-2xl font-bold my-6 text-white">Dropoff</p>
+              <p className="text-2xl font-bold my-2 text-white">Dropoff</p>
             </div>
           </Link>
           <Link href="/history">
-            <div className="bg-primary h-[30vh] w-[30vh] mx-auto rounded-box overflow-hidden border-4  border-teal-500 flex flex-col items-center shadow-xl">
+            <div className="bg-primary h-[30vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-teal-500 flex flex-col items-center shadow-xl">
               <div className="relative h-[80%] w-full  rounded-xl overflow-hidden">
                 <Image
                   src="/images/history.jpg"
@@ -31,7 +31,7 @@ export default function Home() {
                   alt=""
                 />
               </div>
-              <p className="text-2xl font-bold my-6 text-white">History</p>
+              <p className="text-2xl font-bold my-2 text-white">History</p>
             </div>
           </Link>
         </section>

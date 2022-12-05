@@ -1,19 +1,26 @@
 import Router from "next/router";
+import Image from "next/image";
 
 export default function UserCard({ data }) {
   const handleClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     Router.push("/user/profile?id=" + data.id);
   };
 
   return (
-    <div onClick={handleClick} className="rounded-box bg-white w-full py-4 px-3 border shadow-lg">
+    <div
+      onClick={handleClick}
+      className="rounded-box bg-white w-full py-4 px-3 border shadow-lg"
+    >
       <div className="flex gap-4">
         <div className="grid place-content-center">
-          <div className="avatar">
-            <div className="w-12 h-12 rounded-box">
-              <img src="/images/user.webp" />
-            </div>
+          <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+            <Image
+              src="/images/user.webp"
+              className="object-contain"
+              layout="fill"
+              alt=""
+            />
           </div>
         </div>
         <div className="grid">

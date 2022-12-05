@@ -65,7 +65,7 @@ export default function Step1({ payload, setPayload, setStep }) {
           Please enter valid Input. {phoneNumber?.mess}
         </p>
       )}
-      <div className="grid place-content-center mt-10 text-center text-teal-700 bg-white rounded-box border min-h-[30vh]">
+      <div className="grid place-content-center mt-10 text-center text-teal-700 rounded-box min-h-[30vh]">
         <p className="font-medium text-lg text-gray-400">
           {!pending && !person?.name && "Enter a valid user number"}
         </p>
@@ -78,7 +78,7 @@ export default function Step1({ payload, setPayload, setStep }) {
         {!pending && person?.name && (
           <div>
             <p className="text-sm font-light text-primary">User Found</p>
-            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto">
+            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
               <Image
                 src="/images/user.webp"
                 className="object-contain"
