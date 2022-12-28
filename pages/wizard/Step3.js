@@ -5,7 +5,12 @@ import fetch from "node-fetch";
 //hooks
 import usePersonFetch from "../../helpers/hooks/person";
 //custom
-import { classNames, isEmpty } from "../../helpers/utility";
+import {
+  classNames,
+  isEmpty,
+  brands,
+  productsDict,
+} from "../../helpers/utility";
 //dynamic
 const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
 
@@ -15,40 +20,29 @@ export default function Step3({ payload, setPayload, setStep }) {
 
   useEffect(() => {
     if (isEmpty(payload?.user)) {
-      console.log("Empty");
       setStep("number");
+    } else if (payload?.containers?.length < 1) {
+      setStep("containers");
     }
   }, [payload]);
 
-  const companyName = (name) => {
-    switch (name) {
-      case "pernodricard":
-        return "Pernod";
-      case "cocacola":
-        return "Coca Cola";
-      case "bidco":
-        return "Bidco";
-      case "unilever":
-        return "Unilever";
-      case "procterngamble":
-        return "Procter & Gamble";
-      case "brookside":
-        return "Brookside";
-      case "eabl":
-        return "EABL";
-      case "dairyland":
-        return "Dairyland";
-      case "kenyaoriginals":
-        return "Kenya Originals";
-      case "other":
-        return "Other";
-    }
+  //find brand from brands array using value and return text
+  const findBrand = (value) => {
+    let brand = brands.find((b) => b.value === value);
+    return brand.text;
+  };
+
+  //find product from productsDict using value and return text
+  const findProduct = (brnd, value) => {
+    let product = productsDict[brnd].find((p) => p.value === value);
+    return product.text;
   };
 
   const handleComplete = () => {
-    if (!isEmpty(payload?.user) && payload.containers.length > 0) {
+    if (!isEmpty(payload?.user) && !isEmpty(payload.containers)) {
       let u = payload.user;
       delete u.points;
+      console.log(payload);
 
       createDropOffTransaction({
         user: u,
@@ -87,19 +81,19 @@ export default function Step3({ payload, setPayload, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-lg text-teal-700 font-medium text-center">
+      <p className="text-lg text-teal-600 font-medium text-center">
         Confirm Customer Dropoff
       </p>
       {payload?.containers?.length > 0 &&
         payload?.containers.map((c, i) => (
-          <div
-            className="grid grid-cols-2 bg-white  mt-5 text-xl font-bold w-full"
-            key={i}
-          >
-            <span className="border border-dashed p-4 text-center">
-              {companyName(c?.brand)}
-            </span>
-            <span className="border border-dashed p-4 text-center">
+          <div className="grid grid-cols-2 bg-white  mt-5 w-full" key={i}>
+            <div className="py-2 px-6 border border-dashed">
+              <p className="font-semibold">
+                {findProduct(c?.brand, c?.product)}
+              </p>
+              <p className="text-sm text-gray-500">{findBrand(c?.brand)}</p>
+            </div>
+            <span className="border border-dashed p-4 text-center font-bold">
               {c?.containers}
             </span>
           </div>
@@ -109,7 +103,8 @@ export default function Step3({ payload, setPayload, setStep }) {
           onClick={handleComplete}
           className={classNames(
             loading && "loading",
-            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg"
+            (isEmpty(payload?.user) || isEmpty(payload?.containers)) && "!bg-gray-300 !border-gray-300",
+            "btn btn-lg btn-primary rounded-xl w-full md:max-w-md mx-auto shadow-lg"
           )}
         >
           Submit

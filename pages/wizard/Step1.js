@@ -11,8 +11,14 @@ export default function Step1({ payload, setPayload, setStep }) {
   const { person, pending, error } = usePersonFetch(`+254${phoneNumber?.data}`);
 
   const change = (event) => {
+    event.preventDefault();
     if (verifyNumber(event.target.value)) {
-      if (event.target.value.length <= 9) {
+      if (event.target.value.length < 9) {
+        setPhoneNumber({
+          data: event.target.value,
+          state: null,
+        });
+      } else if (event.target.value.length === 9) {
         setPhoneNumber({
           data: event.target.value,
           state: "success",
@@ -47,27 +53,58 @@ export default function Step1({ payload, setPayload, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-sm text-teal-700 font-medium text-center mb-3">
+      <p className="text-sm text-teal-600 font-medium text-center mb-3">
         Customer Phone Number
       </p>
-      <label className="input-group input-group-lg">
-        <span className="text-white bg-primary font-medium">+254</span>
-        <input
-          type="text"
-          onChange={change}
-          placeholder="72XXXXXXX"
-          value={phoneNumber?.data}
-          className="input input-lg input-primary input-bordered text-primary font-semibold w-full"
-        />
-      </label>
+      <div className="flex gap-1 items-center">
+        <button
+          className={classNames(
+            "btn btn-outline h-[4em] border-2",
+            phoneNumber?.state === "success" && "btn-success",
+            phoneNumber?.state === "error" && "btn-error",
+            phoneNumber?.state !== "success" &&
+              phoneNumber?.state !== "error" &&
+              "btn-primary"
+          )}
+        >
+          +254
+        </button>
+        <div className="relative form-control w-full">
+          <input
+            placeholder=" "
+            onChange={change}
+            type="text"
+            className={classNames(
+              "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
+              phoneNumber?.state === "success" && "text-success border-success",
+              phoneNumber?.state === "error" && "text-error border-error",
+              phoneNumber?.state !== "success" &&
+                phoneNumber?.state !== "error" &&
+                "text-teal-500 border-teal-500 focus:border-teal-500"
+            )}
+          />
+          <label
+            className={classNames(
+              "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
+              phoneNumber?.state === "success" && "text-success",
+              phoneNumber?.state === "error" && "text-error",
+              phoneNumber?.state !== "success" &&
+                phoneNumber?.state !== "error" &&
+                "text-teal-700 peer-focus:text-teal-600"
+            )}
+          >
+            7XXXXXXXX
+          </label>
+        </div>
+      </div>
       {phoneNumber.state === "error" && (
         <p className="text-error text-xs italic text-center mt-1">
           Please enter valid Input. {phoneNumber?.mess}
         </p>
       )}
-      <div className="grid place-content-center mt-10 text-center text-teal-700 rounded-box min-h-[30vh]">
+      <div className="grid place-content-center mt-[1vh] text-center text-teal-700 rounded-box min-h-[30vh]">
         <p className="font-medium text-lg text-gray-400">
-          {!pending && !person?.name && "Enter a valid user number"}
+          {!pending && !person?.name && !payload?.user && "Enter a valid user number"}
         </p>
         {pending && (
           <div>
@@ -91,6 +128,22 @@ export default function Step1({ payload, setPayload, setStep }) {
             <p className="text-2xl font-semibold text-primary">{person.name}</p>
           </div>
         )}
+        {payload && payload?.user && (
+          <div>
+            <p className="text-sm font-light text-primary">User Found</p>
+            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+              <Image
+                src="/images/user.webp"
+                className="object-contain"
+                priority="eager"
+                layout="fill"
+                alt=""
+              />
+            </div>
+            <p className="text-lg font-medium text-gray-400 mt-2">User Name</p>
+            <p className="text-2xl font-semibold text-primary">{payload?.user.name}</p>
+          </div>
+        )}
         {!pending && !person?.name && error && (
           <p className="text-3xl font-semibold">{error}</p>
         )}
@@ -99,7 +152,7 @@ export default function Step1({ payload, setPayload, setStep }) {
         <button
           onClick={handleComplete}
           className={classNames(
-            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg"
+            "btn btn-primary btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg"
           )}
         >
           Next

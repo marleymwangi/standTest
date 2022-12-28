@@ -54,3 +54,78 @@ export const verifyNumber = (number) => {
   var reg = /^\d+$/;
   return reg.test(number);
 };
+
+export const brands = [
+  { text: "Coca Cola", value: "cocacola" },
+  { text: "Bidco", value: "bidco" },
+  { text: "Unilever", value: "unilever" },
+  { text: "Procter & Gamble", value: "procterngamble" },
+  { text: "Brookside", value: "brookside" },
+  { text: "EABL", value: "eabl" },
+  { text: "Dairyland", value: "dairyland" },
+  { text: "Pernod Ricard", value: "pernodricard" },
+  { text: "Kenya Originals", value: "kenyaoriginals" },
+  { text: "Other", value: "other" }
+];
+export const productsDict = {
+  cocacola: [
+    { text: "Coca-Cola", value: "cocacola" },
+    { text: "Sprite", value: "sprite" },
+    { text: "Fanta", value: "fanta" },
+    { text: "Stoney", value: "stoney" },
+    { text: "Minute maid", value: "minutemaid" },
+    { text: "Dasani", value: "dasani" },
+    { text: "Schweppes", value: "schweppes" },
+    { text: "Novida", value: "novida" }
+  ],
+  bidco: [
+    { text: "Elianto", value: "elianto" },
+    { text: "SoyaGold", value: "soyagold" },
+    { text: "SunGold", value: "sungold" },
+    { text: "Kimbo", value: "kimbo" },
+    { text: "Olive Gold", value: "olivegold" },
+    { text: "Golden Fry", value: "goldenfry" },
+    { text: "Ufuta", value: "ufuta" },
+    { text: "Bahari", value: "bahari" },
+    { text: "Chipo", value: "chipo" },
+    { text: "Mallo", value: "mallo" },
+    { text: "Cowboy", value: "cowboy" },
+    { text: "Chipsy", value: "chipsy" },
+    { text: "Gold Band", value: "goldband" },
+    { text: "Germonil", value: "germonil" },
+    { text: "Nuru", value: "nuru" },
+    { text: "Gental", value: "gental" },
+    { text: "Msafi", value: "msafi" }
+  ],
+  unilever:[
+    { text: "Dove", value: "dove" },
+    { text: "Vaseline", value: "vaseline" },
+    { text: "Sunsilk", value: "sunsilk" },
+    { text: "Liquid I.V", value: "liquidiv" },
+    { text: "Axe", value: "axe" },
+    { text: "Lifebuoy", value: "lifebuoy" },
+    { text: "Lux", value: "lux" },
+    { text: "Rexona", value: "rexona" },
+    { text: "Comfort", value: "comfort" },
+    { text: "Omo", value: "omo" },
+    { text: "Knorr", value: "knorr" },
+    { text: "Hellmann’s", value: "hellmanns" },
+    { text: "Horlicks", value: "horlicks" },
+    { text: "Ben & Jerry’s", value: "bennjerrys" }
+  ],
+  procterngamble:[
+    { text: "Ariel", value: "ariel" },
+    { text: "Downy", value: "downy" },
+    { text: "Tide", value: "tide" },
+    { text: "bounty", value: "bounty" },
+    { text: "Gilette", value: "gilette" },
+    { text: "Old Spice", value: "oldspice" },
+    { text: "Dawn", value: "dawn" },
+    { text: "Febreze", value: "Febreze" },
+    { text: "Mr Clean", value: "mrclean" },
+    { text: "Oral B", value: "oralb" }
+  ],
+  brookside:[
+    { text: "Lala", value: "lala" },
+  ]
+};

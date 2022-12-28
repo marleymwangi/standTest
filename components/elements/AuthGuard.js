@@ -1,13 +1,15 @@
-import { useSession } from "next-auth/react";
 import Router from "next/router";
+import { useEffect } from "react";
+import { useAuth } from "../../context/authContext";
 
 export function AuthGuard({ children }) {
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated: () => {
+  const { user, status } = useAuth();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
       Router.push("/auth/signin");
-    },
-  });
+    }
+  }, [status]);
 
   /* show loading indicator while the auth provider is still initializing */
   if (status === "loading") {
@@ -19,7 +21,7 @@ export function AuthGuard({ children }) {
   }
 
   // if auth initialized with a valid user show protected page
-  if (status !== "loading" && session) {
+  if (status !== "loading" && user) {
     return <>{children}</>;
   }
 

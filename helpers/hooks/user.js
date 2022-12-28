@@ -11,12 +11,12 @@ import {
   onSnapshot,
 } from "@firebase/firestore";
 import { db } from "../../firebase";
-import { useSession } from "next-auth/react";
+import { useAuth } from "../../context/authContext";
 //custom
 import { isEmpty } from "../utility";
 
 const useUserFetch = () => {
-  const { data: session } = useSession();
+  const { user: session } = useAuth();
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
   const [drops, setDrops] = useState([]);
@@ -30,45 +30,40 @@ const useUserFetch = () => {
   const [dropsError, setDropsError] = useState(null);
 
   useEffect(() => {
-    if (!isEmpty(session)) {
-      let user = parseSession(session);
-      setUser(user);
-      setUserPending(false);
-    }
-  }, [db, session]);
-
-  useEffect(() => {
     try {
-      if (!isEmpty(user)) {
-        let docRef = doc(db, "takaEmployees", user.id);
+      if (!isEmpty(session) && session?.id?.length > 0) {
+        let docRef = doc(db, "takaEmployees", session.id);
 
-        return onSnapshot(docRef, (doc) => {
-          if (!doc.exists()) {
-            let user = parseSession(session);
-            delete user.id;
-            setUserDataDb(user).then((res) => console.log("User Created"));
-          } else {
-            let user = parseSession(session);
-            delete user.id;
-            setUserDataDb(user).then((res) => console.log("User Updated"));
+        return onSnapshot(
+          docRef,
+          (doc) => {
+            if (!doc.exists()) {
+              console.log(tmp);
+              setUserDataDb(session).then((res) => console.log("User Created"));
+            } else {
+              setUserDataDb(session).then((res) => console.log("User Updated"));
 
-            let u = { id: doc.id, ...doc.data() };
-            if (u !== user) {
-              setUser(u);
-              setUserPending(false);
+              let u = { id: doc.id, ...doc.data() };
+              if (u !== session) {
+                setUser(u);
+                setUserPending(false);
+              }
             }
+          },
+          (error) => {
+            console.info("User Hook: getUserDataFromDb useEffect: ", error);
           }
-        });
+        );
       }
     } catch (error) {
-      console.warn(
+      console.info(
         "User Hook: getUserDataFromDb useEffect: ",
         JSON.stringify(error)
       );
       setUserError(error);
       setUserPending(false);
     }
-  }, [session, session?.user?.id]);
+  }, [session, session?.id]);
 
   useEffect(() => {
     try {
@@ -87,11 +82,11 @@ const useUserFetch = () => {
           setUsersError(false);
         },
         (error) => {
-          console.info("User Hook: getUserNotifications useEffect: ", error);
+          console.info("User Hook: getDataFromDb useEffect: ", error);
         }
       );
     } catch (error) {
-      console.warn("Person Hook: getDataFromDb useEffect: ", error);
+      console.info("User Hook: getDataFromDb useEffect: ", error);
       setUsersError(error);
       setUsersPending(false);
     }
@@ -99,61 +94,57 @@ const useUserFetch = () => {
 
   useEffect(() => {
     try {
-      if (!isEmpty(session) && session?.user?.id.length > 0) {
+      if (!isEmpty(session) && session?.id?.length > 0) {
         let queryRef = query(
           collection(db, "drops"),
           orderBy("timestamp", "desc")
         );
 
-        return onSnapshot(queryRef, (snapshot) => {
-          let tmp = [];
-          snapshot.forEach((doc) => {
-            let timestm = doc.data().timestamp.toDate();
-            let d = {
-              id: doc.id,
-              ...doc.data(),
-              timestamp: timestm,
-            };
+        return onSnapshot(
+          queryRef,
+          (snapshot) => {
+            let tmp = [];
+            snapshot.forEach((doc) => {
+              let timestm = doc.data().timestamp.toDate();
+              let d = {
+                id: doc.id,
+                ...doc.data(),
+                timestamp: timestm,
+              };
 
-            tmp.push(d);
-          });
+              tmp.push(d);
+            });
 
-          setDrops(tmp);
-          setDropsPending(false);
-        });
+            setDrops(tmp);
+            setDropsPending(false);
+          },
+          (error) => {
+            console.info("User Hook: getDrops useEffect: ", error);
+          }
+        );
       }
     } catch (error) {
-      console.log("User Hook: getDrops: ", error);
+      console.log("User Hook: getDrops useEffect: ", error);
       setDropsError(error);
       setDropsPending(false);
     }
-  }, [session, session?.user?.id]);
-
-  function parseSession(session) {
-    if (!isEmpty(session)) {
-      let obj = {};
-      obj.id = session.user.id;
-      obj.name = session.user.name;
-      obj.email = session.user.email;
-      obj.image = session.user.image;
-      return obj;
-    }
-  }
+  }, [session, session?.id]);
 
   function setUserDataDb(updateObj) {
     return new Promise((resolve, reject) => {
       try {
-        if (isEmpty(session?.user?.id)) {
+        if (session?.id?.length < 1) {
           reject({ message: "Missing user Id" });
         } else {
-          let docRef = doc(db, "takaEmployees", session.user.id);
+          let docRef = doc(db, "takaEmployees", session?.id);
 
           setDoc(docRef, updateObj, { merge: true }).then((res) =>
             resolve("done")
           );
         }
       } catch (error) {
-        console.warn("User Hook: setUserDataDb:");
+        console.log("User Hook: getDrops useEffect: ", error);
+        console.info("User Hook: setUserDataDb:");
         console.error(error);
         reject(error);
       }
@@ -163,7 +154,7 @@ const useUserFetch = () => {
   function updateNotId(obj) {
     if (isEmpty(obj)) {
       reject({ message: "No data to update" });
-    } else if (isEmpty(session?.user?.id)) {
+    } else if (isEmpty(session?.id)) {
       return;
     } else if (user?.notId === obj.notId) {
       return;

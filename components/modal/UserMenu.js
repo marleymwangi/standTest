@@ -1,16 +1,15 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { useAuth } from "../../context/authContext";
 //custom
 import ImageLoader from "../elements/imageLoader";
 //dynamic
 const HiBell = dynamic(async () => (await import("react-icons/hi")).HiBell);
 
 export default function ModalUser() {
-  const { data: session } = useSession();
-
-  const handleLogout = () => {
-    signOut();
+  const { user, Logout } = useAuth();
+  const handleLogout = (e) => {
+    Logout();
     handleCloseModal();
   };
 
@@ -33,12 +32,6 @@ export default function ModalUser() {
             </label>
           </div>
           <div className="grid gap-4 w-full text-center text-primary font-poppins">
-            <Link href="/notifications">
-              <div className="btn btn-lg text-base btn-ghost bg-gray-100 btn-primary gap-2 shadow-md">
-                <HiBell size="1.25em" />
-                <p>Notifications</p>
-              </div>
-            </Link>
             <button
               onClick={handleLogout}
               className="btn btn-lg btn-outline bg-gray-100 btn-primary gap-2 shadow-md"
@@ -46,10 +39,11 @@ export default function ModalUser() {
               <p>Logout</p>
               <div className="avatar relative">
                 <div className="w-6 rounded-full">
-                  <ImageLoader
-                    src={session?.user?.image}
-                    fallbackSrc="/assets/person.webp"
-                  />
+                  <div className="relative bg-primary w-full h-full">
+                    <p className="abs-center text-white">
+                      {user?.email?.slice(0, 1)}
+                    </p>
+                  </div>
                 </div>
               </div>
             </button>

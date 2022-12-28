@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import usePersonFetch from "../../helpers/hooks/person";
 //custom
 import Containers from "./Containers";
-import { classNames } from "../../helpers/utility";
+import { classNames, isEmpty } from "../../helpers/utility";
 //dynamic
 const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
 
@@ -19,6 +19,12 @@ export default function Step2({ payload, setPayload, setStep }) {
   const toggle = () => {
     setUpdate(!update);
   };
+
+  useEffect(() => {
+    if (isEmpty(payload?.user)) {
+      setStep("number");
+    }
+  }, [payload]);
 
   const addContainer = (e) => {
     e.preventDefault();
@@ -73,7 +79,7 @@ export default function Step2({ payload, setPayload, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-lg text-teal-700 font-medium text-center">
+      <p className="text-lg text-teal-600 font-medium text-center">
         Customer Containers
       </p>
       <div className="grid mt-6 gap-6">
@@ -108,7 +114,7 @@ export default function Step2({ payload, setPayload, setStep }) {
         <button
           onClick={handleComplete}
           className={classNames(
-            "btn btn-primary border-0 btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg"
+            "btn btn-primary btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg"
           )}
         >
           Next

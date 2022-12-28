@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
   doc,
@@ -14,9 +13,10 @@ import {
 //custom
 import { db } from "../../firebase";
 import { isEmpty } from "../utility";
+import { useAuth } from "../../context/authContext";
 
 const usePersonFetch = (phoneNumber) => {
-  const { data: session } = useSession();
+  const { user: session } = useAuth();
   const [person, setPerson] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [pending, setPending] = useState(false);
@@ -102,11 +102,11 @@ const usePersonFetch = (phoneNumber) => {
           reject("Nothing to update");
         } else if (phoneNumber?.length !== 13) {
           reject("Missing phone number");
-        } else if (session?.user?.id?.length < 1) {
+        } else if (session?.id?.length < 1) {
           reject("Please sign in");
         } else {
           let colRef = collection(db, "drops");
-          obj.submitted = session.user.id;
+          obj.submitted = session.id;
           obj.status = "pending";
 
           addDoc(colRef, obj).then((res) => resolve("done"));

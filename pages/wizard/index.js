@@ -17,23 +17,23 @@ export default function WizardIndex() {
           <div className="grid gap-2">
             {
               step === "number" &&(
-                <p className="font-medium text-teal-700">Step 1: Find Customer</p>
+                <p className="font-medium text-teal-600">Step 1: Find Customer</p>
               )
             }
             {
               step === "containers" &&(
-                <p className="font-medium text-teal-700">Step 2: Input Containers</p>
+                <p className="font-medium text-teal-600">Step 2: Input Containers</p>
               )
             }
             {
               step === "confirm" &&(
-                <p className="font-medium text-teal-700">Step 3: Submit Dropoff</p>
+                <p className="font-medium text-teal-600">Step 3: Submit Dropoff</p>
               )
             }
             <div className="grid grid-cols-3 gap-1">
-              <div className={classNames("h-2 w-full rounded", step === "number" ? "bg-primary" : "bg-gray-300")}/>
-              <div className={classNames("h-2 w-full rounded", step === "containers" ? "bg-primary" : "bg-gray-300")}/>
-              <div className={classNames("h-2 w-full rounded", step === "confirm" ? "bg-primary" : "bg-gray-300")}/>
+              <div onClick={()=>setStep("number")} className={classNames("h-2 w-full rounded", step === "number" ? "bg-teal-400" : "bg-gray-300")}/>
+              <div onClick={()=>setStep("containers")} className={classNames("h-2 w-full rounded", step === "containers" ? "bg-teal-400" : "bg-gray-300")}/>
+              <div onClick={()=>setStep("confirm")} className={classNames("h-2 w-full rounded", step === "confirm" ? "bg-teal-400" : "bg-gray-300")}/>
             </div>
           </div>
           {step === "number" && (
