@@ -29,7 +29,7 @@ export default function Profile() {
     <AuthGuard>
       <main className="min-h-[95vh] pt-20 pb-16 px-6 flex flex-col gap-4 items-start">
         <section className="flex flex-col items-center container mx-auto">
-          <div className="relative rounded-box w-24 h-24 mask mask-squircle mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+          <div className="relative rounded-box w-24 h-24 mask mask-squircle mt-2 mx-auto bg-gradient-to-r from-teal-500 via-teal-300 to-teal-500">
             <Image
               src="/images/user.webp"
               className="object-contain"
@@ -61,10 +61,17 @@ export default function Profile() {
               <div className="p-3 text-center flex-1">Transaction</div>
               <div className="p-3 w-[80px]">Status</div>
             </div>
-            {transPending && transactions?.length < 1 && (
+            {transPending && (
               <div className="flex-1">
                 <p className="font-semibold text-center py-6 text-gray-400">
                   Loading
+                </p>
+              </div>
+            )}
+            {!transPending && transactions.length < 1 && (
+              <div className="flex-1">
+                <p className="font-semibold text-center py-6 text-gray-400">
+                  No transactions
                 </p>
               </div>
             )}

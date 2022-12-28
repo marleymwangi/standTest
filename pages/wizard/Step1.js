@@ -115,7 +115,7 @@ export default function Step1({ payload, setPayload, setStep }) {
         {!pending && person?.name && (
           <div>
             <p className="text-sm font-light text-primary">User Found</p>
-            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-teal-200 via-teal-400 to-teal-500">
               <Image
                 src="/images/user.webp"
                 className="object-contain"
@@ -131,7 +131,7 @@ export default function Step1({ payload, setPayload, setStep }) {
         {payload && payload?.user && (
           <div>
             <p className="text-sm font-light text-primary">User Found</p>
-            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-teal-500 via-teal-300 to-teal-500">
               <Image
                 src="/images/user.webp"
                 className="object-contain"
@@ -141,14 +141,14 @@ export default function Step1({ payload, setPayload, setStep }) {
               />
             </div>
             <p className="text-lg font-medium text-gray-400 mt-2">User Name</p>
-            <p className="text-2xl font-semibold text-primary">{payload?.user.name}</p>
+            <p className="text-2xl font-medium text-primary">{payload?.user.name}</p>
           </div>
         )}
         {!pending && !person?.name && error && (
           <p className="text-3xl font-semibold">{error}</p>
         )}
       </div>
-      <div className="mt-10 grid">
+      <div className="mt-6 grid">
         <button
           onClick={handleComplete}
           className={classNames(

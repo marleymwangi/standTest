@@ -11,6 +11,7 @@ import {
   onSnapshot,
 } from "@firebase/firestore";
 import { db } from "../../firebase";
+import localforage from "localforage";
 import { useAuth } from "../../context/authContext";
 //custom
 import { isEmpty } from "../utility";
@@ -23,7 +24,7 @@ const useUserFetch = () => {
 
   const [userPending, setUserPending] = useState(true);
   const [usersPending, setUsersPending] = useState(false);
-  const [dropsPending, setDropsPending] = useState(true);
+  const [dropsPending, setDropsPending] = useState(false);
 
   const [userError, setUserError] = useState(null);
   const [usersError, setUsersError] = useState(null);
@@ -68,6 +69,12 @@ const useUserFetch = () => {
   useEffect(() => {
     try {
       let queryRef = query(collection(db, "users"));
+      localforage.getItem("users", function (err, value) {
+        // if err is non-null, we got an error. otherwise, value is the value
+        if (!err && value) {
+          setUsers(JSON.parse(value));
+        }
+      });
 
       return onSnapshot(
         queryRef,
@@ -79,6 +86,9 @@ const useUserFetch = () => {
           });
 
           setUsers(tmp);
+          localforage.setItem("users", JSON.stringify(tmp), function (err) {
+            // if err is non-null, we got an error
+          });
           setUsersError(false);
         },
         (error) => {
@@ -99,6 +109,12 @@ const useUserFetch = () => {
           collection(db, "drops"),
           orderBy("timestamp", "desc")
         );
+        localforage.getItem("drops", function (err, value) {
+          // if err is non-null, we got an error. otherwise, value is the value
+          if (!err && value) {
+            setDrops(JSON.parse(value));
+          }
+        });
 
         return onSnapshot(
           queryRef,
@@ -116,6 +132,9 @@ const useUserFetch = () => {
             });
 
             setDrops(tmp);
+            localforage.setItem("drops", JSON.stringify(tmp), function (err) {
+              // if err is non-null, we got an error
+            });
             setDropsPending(false);
           },
           (error) => {

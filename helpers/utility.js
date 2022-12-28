@@ -67,6 +67,7 @@ export const brands = [
   { text: "Kenya Originals", value: "kenyaoriginals" },
   { text: "Other", value: "other" }
 ];
+
 export const productsDict = {
   cocacola: [
     { text: "Coca-Cola", value: "cocacola" },

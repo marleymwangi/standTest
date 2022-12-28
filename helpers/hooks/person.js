@@ -14,9 +14,11 @@ import {
 import { db } from "../../firebase";
 import { isEmpty } from "../utility";
 import { useAuth } from "../../context/authContext";
+import useUserFetch from "./user";
 
 const usePersonFetch = (phoneNumber) => {
   const { user: session } = useAuth();
+  const { users } = useUserFetch();
   const [person, setPerson] = useState({});
   const [transactions, setTransactions] = useState([]);
   const [pending, setPending] = useState(false);
@@ -32,19 +34,13 @@ const usePersonFetch = (phoneNumber) => {
     try {
       if (phoneNumber?.length > 0 && phoneNumber?.length === 13) {
         setPending(true);
-        let docRef = doc(db, "users", phoneNumber);
-
-        return onSnapshot(docRef, (doc) => {
-          if (doc.exists()) {
-            let per = { id: doc.id, ...doc.data() };
-            setPerson(per);
-            setPending(false);
-          } else {
-            console.warn(`No user found with ${phoneNumber}`);
-            setPending(false);
-            setError(`No user found with ${phoneNumber}`);
-          }
-        });
+        
+        //find user in users array with phone number
+        let tmp = users.find((u) => u.id === phoneNumber);
+        if (tmp) {
+          setPerson(tmp);
+          setPending(false);
+        }
       } else {
         setPerson({});
         setPending(false);
@@ -54,7 +50,7 @@ const usePersonFetch = (phoneNumber) => {
       setError(error);
       setPending(false);
     }
-  }, [phoneNumber]);
+  }, [phoneNumber, users]);
 
   useEffect(() => {
     try {

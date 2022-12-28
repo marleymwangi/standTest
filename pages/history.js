@@ -53,6 +53,13 @@ export default function History() {
                 </p>
               </div>
             )}
+            {!dropsPending && drops.length < 1 && (
+              <div className="flex-1">
+                <p className="font-semibold text-center py-10 text-gray-400">
+                  No drops to show
+                </p>
+              </div>
+            )}
             {drops &&
               drops.map((drop, i) => (
                 <label
@@ -67,7 +74,7 @@ export default function History() {
                   <div className="p-3 flex-1 border-t border-r border-dashed">
                     <div className="flex gap-4">
                       <div className="grid place-content-center">
-                        <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+                        <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-teal-500 via-teal-300 to-teal-500">
                           <Image
                             src="/images/user.webp"
                             className="object-contain"

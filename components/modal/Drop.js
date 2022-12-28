@@ -1,7 +1,8 @@
 //custom
 import { useData } from "../../context/dataContext";
 import { useEffect } from "react";
-import { isEmpty } from "../../helpers/utility";
+import { isEmpty, brands, productsDict } from "../../helpers/utility";
+import Link from "next/link";
 
 export default function ModalDrop() {
   const { selDrop } = useData();
@@ -16,13 +17,16 @@ export default function ModalDrop() {
     }
   }, []);
 
-  const BrandName = (name) => {
-    switch (name) {
-      case "cocacola":
-        return "Coca Cola";
-      default:
-        return name;
-    }
+  //find brand from brands array using value and return text
+  const findBrand = (value) => {
+    let brand = brands.find((b) => b.value === value);
+    return brand.text;
+  };
+
+  //find product from productsDict using value and return text
+  const findProduct = (brnd, value) => {
+    let product = productsDict[brnd].find((p) => p.value === value);
+    return product.text;
   };
 
   return (
@@ -41,31 +45,39 @@ export default function ModalDrop() {
           </div>
           <div className="grid grid-cols-2 gap-4 w-full text-primary font-poppins mt-[2vh]">
             <p className="text-gray-400">Name</p>{" "}
-            <p className="font-medium">{selDrop?.user?.name}</p>
+            <Link href={"/user/profile?id=" + selDrop?.user?.id}>
+              <p onClick={handleCloseModal} className="font-medium">
+                {selDrop?.user?.name}
+              </p>
+            </Link>
             <p className="text-gray-400">Phone Number</p>{" "}
-            <p className="font-medium">{selDrop?.user?.id}</p>
+            <Link href={"/user/profile?id=" + selDrop?.user?.id}>
+              <p onClick={handleCloseModal} className="font-medium">
+                {selDrop?.user?.id}
+              </p>
+            </Link>
             <p className="text-gray-400">Points Allocation</p>{" "}
             <p className="font-medium capitalize">{selDrop?.status}</p>
             <p className="text-gray-400">Location</p>{" "}
-            <p className="font-medium capitalize">Naivas Location1</p>
+            <p className="font-medium capitalize">Quickmart Ruaka</p>
             <p className="col-span-2 text-lg font-semibold mt-6 text-gray-400">
               Containers
             </p>
             {selDrop &&
               selDrop?.containers?.length > 0 &&
               selDrop.containers.map((c, i) => (
-                <div key={i} className="col-span-2 grid gap-3 grid-cols-2 px-4 py-3 bg-gray-100 capitalize">
-                  <p className="font-semibold">
-                    <span className="text-xs">{i + 1}.</span>{" "}
-                    {BrandName(c.name)}
-                  </p>{" "}
-                  <p className="text-gray-500">
-                    {" "}
-                    <span className="font-semibold text-primary">
-                      {c.containers}
-                    </span>{" "}
-                    containers
-                  </p>
+                <div key={i} className="col-span-2 bg-gray-100 capitalize">
+                  <div className="flex items-center justify-between px-6">
+                    <div className="py-2">
+                      <p className="font-semibold">
+                        {findProduct(c?.brand, c?.product)}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        {findBrand(c?.brand)}
+                      </p>
+                    </div>
+                    <p className="font-semibold">{c.containers} Containers</p>
+                  </div>
                 </div>
               ))}
           </div>

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import dynamic from "next/dynamic";
-import fetch from "node-fetch";
 //hooks
 import usePersonFetch from "../../helpers/hooks/person";
 //custom
@@ -11,8 +9,6 @@ import {
   brands,
   productsDict,
 } from "../../helpers/utility";
-//dynamic
-const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
 
 export default function Step3({ payload, setPayload, setStep }) {
   const { createDropOffTransaction } = usePersonFetch(payload?.user?.id);
@@ -42,7 +38,6 @@ export default function Step3({ payload, setPayload, setStep }) {
     if (!isEmpty(payload?.user) && !isEmpty(payload.containers)) {
       let u = payload.user;
       delete u.points;
-      console.log(payload);
 
       createDropOffTransaction({
         user: u,

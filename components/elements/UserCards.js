@@ -14,7 +14,7 @@ export default function UserCard({ data }) {
     >
       <div className="flex gap-4">
         <div className="grid place-content-center">
-          <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-green-200 via-green-400 to-green-500">
+          <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-teal-500 via-teal-400 to-teal-500">
             <Image
               src="/images/user.webp"
               className="object-contain"
