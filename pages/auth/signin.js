@@ -10,8 +10,9 @@ import Router from "next/router";
 import { classNames } from "../../helpers/utility";
 import { useAuth } from "../../context/authContext";
 //dynamic
-const FaFingerprint = dynamic(
-  async () => (await import("react-icons/fa")).FaFingerprint
+const FaEye = dynamic(async () => (await import("react-icons/fa")).FaEye);
+const FaEyeSlash = dynamic(
+  async () => (await import("react-icons/fa")).FaEyeSlash
 );
 
 export default function SignIn({ providers }) {
@@ -173,7 +174,15 @@ export default function SignIn({ providers }) {
                 !password?.show && "!text-gray-300"
               )}
             >
-              <FaFingerprint size="1.25rem" />
+              <label
+                className={classNames(
+                  "swap swap-rotate text-6xl",
+                  password.show && "swap-active"
+                )}
+              >
+                <FaEye className="swap-on" size="1.25rem" />
+                <FaEyeSlash className="swap-off" size="1.25rem" />
+              </label>
             </button>
           </div>
           {error && status !== "loading" && (
