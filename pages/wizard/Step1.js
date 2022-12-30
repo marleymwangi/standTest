@@ -59,9 +59,9 @@ export default function Step1({ payload, setPayload, setStep }) {
       <div className="flex gap-1 items-center">
         <button
           className={classNames(
-            "btn btn-outline h-[4em] border-2",
-            phoneNumber?.state === "success" && "btn-success",
-            phoneNumber?.state === "error" && "btn-error",
+            "btn btn-primary h-[4em] border-2",
+            phoneNumber?.state === "success" && "btn-success text-white",
+            phoneNumber?.state === "error" && "btn-error text-white",
             phoneNumber?.state !== "success" &&
               phoneNumber?.state !== "error" &&
               "btn-primary"
@@ -104,7 +104,7 @@ export default function Step1({ payload, setPayload, setStep }) {
       )}
       <div className="grid place-content-center mt-[1vh] text-center text-teal-700 rounded-box min-h-[30vh]">
         <p className="font-medium text-lg text-gray-400">
-          {!pending && !person?.name && !payload?.user && "Enter a valid user number"}
+          {!pending && !person?.name && !payload?.user && "No user was found. Verify the number and try again"}
         </p>
         {pending && (
           <div>

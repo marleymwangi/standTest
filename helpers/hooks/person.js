@@ -40,6 +40,9 @@ const usePersonFetch = (phoneNumber) => {
         if (tmp) {
           setPerson(tmp);
           setPending(false);
+        }else{
+          setPerson(tmp);
+          setPending(false);
         }
       } else {
         setPerson({});
