@@ -55,6 +55,19 @@ export const verifyNumber = (number) => {
   return reg.test(number);
 };
 
+export const wasteTypes = [
+  { text: "Paper", value: "paper" },
+  { text: "Glass", value: "glass" },
+  { text: "Metal", value: "metal" },
+  { text: "Plastic 1", value: "plastic1" },
+  { text: "Plastic 2", value: "plastic2" },
+  { text: "Plastic 3", value: "plastic3" },
+  { text: "Plastic 4", value: "plastic4" },
+  { text: "Plastic 5", value: "plastic5" },
+  { text: "Plastic 6", value: "plastic6" },
+  { text: "Plastic 7", value: "plastic7" },
+];
+
 export const brands = [
   { text: "Coca Cola", value: "cocacola" },
   { text: "Bidco", value: "bidco" },
@@ -64,8 +77,7 @@ export const brands = [
   { text: "EABL", value: "eabl" },
   { text: "Dairyland", value: "dairyland" },
   { text: "Pernod Ricard", value: "pernodricard" },
-  { text: "Kenya Originals", value: "kenyaoriginals" },
-  { text: "Other", value: "other" }
+  { text: "Kenya Originals", value: "kenyaoriginals" }
 ];
 
 export const productsDict = {

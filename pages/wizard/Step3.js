@@ -83,10 +83,18 @@ export default function Step3({ payload, setPayload, setStep }) {
         payload?.containers.map((c, i) => (
           <div className="grid grid-cols-2 bg-white  mt-5 w-full" key={i}>
             <div className="py-2 px-6 border border-dashed">
-              <p className="font-semibold">
-                {findProduct(c?.brand, c?.product)}
-              </p>
-              <p className="text-sm text-gray-500">{findBrand(c?.brand)}</p>
+              {c.op ? (
+                <p className="font-semibold">{c?.product}</p>
+              ) : (
+                <p className="font-semibold">
+                  {findProduct(c?.brand, c?.product)}
+                </p>
+              )}
+              {c?.ob ? (
+                <p className="text-sm text-gray-500">{c?.brand}</p>
+              ) : (
+                <p className="text-sm text-gray-500">{findBrand(c?.brand)}</p>
+              )}
             </div>
             <span className="border border-dashed p-4 text-center font-bold">
               {c?.containers}
@@ -98,7 +106,8 @@ export default function Step3({ payload, setPayload, setStep }) {
           onClick={handleComplete}
           className={classNames(
             loading && "loading",
-            (isEmpty(payload?.user) || isEmpty(payload?.containers)) && "!bg-gray-300 !border-gray-300",
+            (isEmpty(payload?.user) || isEmpty(payload?.containers)) &&
+              "!bg-gray-300 !border-gray-300",
             "btn btn-lg btn-primary rounded-xl w-full md:max-w-md mx-auto shadow-lg"
           )}
         >

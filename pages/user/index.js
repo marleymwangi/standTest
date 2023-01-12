@@ -35,17 +35,16 @@ export default function User() {
     <AuthGuard>
       <main className="min-h-[95vh] pt-20 pb-16 px-6 flex flex-col gap-4 items-start">
         <section className="container mx-auto">
-          <div className="rounded-full bg-white p-1 flex justify-between shadow-lg">
-            <textarea
-              value={text}
+          <div className="relative form-control w-full">
+            <input
               type="text"
+              placeholder=" "
               onChange={handleChange}
-              placeholder="Type here"
-              className="input pt-2 resize-none rounded-full input-outline w-full flex-1"
+              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-teal-700 border-teal-500 focus:border-teal-500"
             />
-            <button className="btn btn-primary text-white btn-circle ml-2">
-              <FaSearch size="1.5em" />
-            </button>
+            <label className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-teal-700 peer-focus:text-teal-600">
+              Search
+            </label>
           </div>
           <div className="flex flex-col items-start gap-4 w-full mt-4">
             {filtered.map((user) => (

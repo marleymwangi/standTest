@@ -1,11 +1,12 @@
-import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useState } from "react";
+import dynamic from "next/dynamic";
 //hooks
 import useUserFetch from "../helpers/hooks/user";
 //custom
-import { AuthGuard } from "../components/elements/AuthGuard";
 import { classNames } from "../helpers/utility";
 import { useData } from "../context/dataContext";
+import { AuthGuard } from "../components/elements/AuthGuard";
 //dynamic
 const MdOutlinePending = dynamic(
   async () => (await import("react-icons/md")).MdOutlinePending
@@ -20,6 +21,11 @@ const MdErrorOutline = dynamic(
 export default function History() {
   const { setSelDrop } = useData();
   const { drops, dropsPending } = useUserFetch();
+  const [text, setText] = useState("");
+
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
 
   const getContainers = (array) => {
     if (array?.length > 0) {
@@ -37,10 +43,35 @@ export default function History() {
     setSelDrop(d);
   };
 
+  let filtered =
+  text.length > 0
+    ? drops.filter((drop) => {
+        let phone = drop.user.id;
+        let names = drop.user.name.toLowerCase().split(" ");
+        let matched = names.some((name) =>
+          name
+            .toLowerCase()
+            .startsWith(text.slice(0, Math.max(name.length - 1, 1)))
+        );
+        return phone.includes(text.toLowerCase()) || matched;
+      })
+    : drops;
+
   return (
     <AuthGuard>
       <main className="min-h-[95vh] pt-20 pb-16">
         <section className="container mx-auto">
+        <div className="relative form-control w-full mb-4">
+            <input
+              type="text"
+              placeholder=" "
+              onChange={handleChange}
+              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-teal-700 border-teal-500 focus:border-teal-500"
+            />
+            <label className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-teal-700 peer-focus:text-teal-600">
+              Search
+            </label>
+          </div>
           <div className="bg-white rounded-box overflow-hidden">
             <div className="flex bg-primary text-white font-bold text-xs uppercase">
               <div className="p-3 text-center flex-1">User</div>
@@ -60,8 +91,8 @@ export default function History() {
                 </p>
               </div>
             )}
-            {drops &&
-              drops.map((drop, i) => (
+            {filtered &&
+              filtered.map((drop, i) => (
                 <label
                   key={drop.id}
                   htmlFor="trans_modal"

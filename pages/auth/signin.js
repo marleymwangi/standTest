@@ -192,7 +192,7 @@ export default function SignIn({ providers }) {
           )}
           <button
             onClick={handleSubmit}
-            className="btn btn-primary gap-3 rounded-md shadow-md max-w-sm"
+            className="w-full mx-auto mt-6 btn btn-lg btn-primary gap-3 rounded-2xl shadow-md max-w-sm"
           >
             Sign in
           </button>

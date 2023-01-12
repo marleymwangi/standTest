@@ -69,12 +69,20 @@ export default function ModalDrop() {
                 <div key={i} className="col-span-2 bg-gray-100 capitalize">
                   <div className="flex items-center justify-between px-6">
                     <div className="py-2">
-                      <p className="font-semibold">
-                        {findProduct(c?.brand, c?.product)}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {findBrand(c?.brand)}
-                      </p>
+                      {c.op ? (
+                        <p className="font-semibold">{c?.product}</p>
+                      ) : (
+                        <p className="font-semibold">
+                          {findProduct(c?.brand, c?.product)}
+                        </p>
+                      )}
+                      {c?.ob ? (
+                        <p className="text-sm text-gray-500">{c?.brand}</p>
+                      ) : (
+                        <p className="text-sm text-gray-500">
+                          {findBrand(c?.brand)}
+                        </p>
+                      )}
                     </div>
                     <p className="font-semibold">{c.containers} Containers</p>
                   </div>
