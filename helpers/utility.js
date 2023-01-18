@@ -3,18 +3,31 @@ export const classNames = (...classes) => {
 };
 
 export const isEmpty = (e) => {
-  switch (e) {
-    case "":
-    case null:
-    case false:
-    case undefined:
-    case Object.keys(e).length === 0:
-    case Object.getPrototypeOf(e) === Object.prototype:
-      return true;
-    default:
-      return false;
+  if (e && Array.isArray(e)) {
+    return e.length < 1 ? true : false;
+  } else if (typeof e === "object") {
+    return isObjEmpty(e);
+  } else {
+    switch (e) {
+      case "":
+      case null:
+      case false:
+      case undefined:
+        return true;
+      default:
+        return false;
+    }
   }
 };
+
+function isObjEmpty(obj) {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      return false;
+    }
+  }
+  return true;
+}
 
 export const makeid = (length) => {
   var result = "";
@@ -77,7 +90,7 @@ export const brands = [
   { text: "EABL", value: "eabl" },
   { text: "Dairyland", value: "dairyland" },
   { text: "Pernod Ricard", value: "pernodricard" },
-  { text: "Kenya Originals", value: "kenyaoriginals" }
+  { text: "Kenya Originals", value: "kenyaoriginals" },
 ];
 
 export const productsDict = {
@@ -89,7 +102,7 @@ export const productsDict = {
     { text: "Minute maid", value: "minutemaid" },
     { text: "Dasani", value: "dasani" },
     { text: "Schweppes", value: "schweppes" },
-    { text: "Novida", value: "novida" }
+    { text: "Novida", value: "novida" },
   ],
   bidco: [
     { text: "Elianto", value: "elianto" },
@@ -108,9 +121,9 @@ export const productsDict = {
     { text: "Germonil", value: "germonil" },
     { text: "Nuru", value: "nuru" },
     { text: "Gental", value: "gental" },
-    { text: "Msafi", value: "msafi" }
+    { text: "Msafi", value: "msafi" },
   ],
-  unilever:[
+  unilever: [
     { text: "Dove", value: "dove" },
     { text: "Vaseline", value: "vaseline" },
     { text: "Sunsilk", value: "sunsilk" },
@@ -124,9 +137,9 @@ export const productsDict = {
     { text: "Knorr", value: "knorr" },
     { text: "Hellmann’s", value: "hellmanns" },
     { text: "Horlicks", value: "horlicks" },
-    { text: "Ben & Jerry’s", value: "bennjerrys" }
+    { text: "Ben & Jerry’s", value: "bennjerrys" },
   ],
-  procterngamble:[
+  procterngamble: [
     { text: "Ariel", value: "ariel" },
     { text: "Downy", value: "downy" },
     { text: "Tide", value: "tide" },
@@ -136,9 +149,7 @@ export const productsDict = {
     { text: "Dawn", value: "dawn" },
     { text: "Febreze", value: "Febreze" },
     { text: "Mr Clean", value: "mrclean" },
-    { text: "Oral B", value: "oralb" }
+    { text: "Oral B", value: "oralb" },
   ],
-  brookside:[
-    { text: "Lala", value: "lala" },
-  ]
+  brookside: [{ text: "Lala", value: "lala" }],
 };

@@ -34,13 +34,13 @@ const usePersonFetch = (phoneNumber) => {
     try {
       if (phoneNumber?.length > 0 && phoneNumber?.length === 13) {
         setPending(true);
-        
+
         //find user in users array with phone number
         let tmp = users.find((u) => u.id === phoneNumber);
         if (tmp) {
           setPerson(tmp);
           setPending(false);
-        }else{
+        } else {
           setPerson(tmp);
           setPending(false);
         }
@@ -94,13 +94,36 @@ const usePersonFetch = (phoneNumber) => {
     }
   }, [phoneNumber]);
 
+  function createUserAccount(obj) {
+    return new Promise((resolve, reject) => {
+      try {
+        if (!isEmpty(person)) {
+          reject("User already exists");
+        } else if (obj.phone?.length !== 13) {
+          reject("Invalid phone number");
+        } else {
+          let { phone, name } = obj;
+          let colRef = doc(db, "users", phone);
+
+          setDoc(colRef, { name, points: 0, enrolled: true }).then((res) => {
+            resolve("done");
+          });
+        }
+      } catch (error) {
+        console.warn("Person Hook: createUserAccount:");
+        console.error(error);
+        reject(error);
+      }
+    });
+  }
+
   function createDropOffTransaction(obj) {
     return new Promise((resolve, reject) => {
       try {
         if (isEmpty(obj)) {
           reject("Nothing to update");
         } else if (phoneNumber?.length !== 13) {
-          reject("Missing phone number");
+          reject("Invalid phone number");
         } else if (session?.id?.length < 1) {
           reject("Please sign in");
         } else {
@@ -127,6 +150,7 @@ const usePersonFetch = (phoneNumber) => {
 
     error,
     transError,
+    createUserAccount,
     createDropOffTransaction,
   };
 };
