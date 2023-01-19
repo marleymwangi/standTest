@@ -112,27 +112,18 @@ export default function Profile() {
                   </div>
                   <div className="p-3 text-primary border-t border-dashed w-[80px]">
                     <div className="grid place-content-center h-full">
-                      {transaction.status !== "Completed" && (
-                        <div className="text-info">
-                          <MdOutlinePending size="1.5em" className="mx-auto" />
-                          <p className="text-xs text-center uppercase font-semibold">
-                            pending
-                          </p>
-                        </div>
-                      )}
-                      {transaction.status === "Completed" && (
+                      {transaction.status === "Completed" ? (
                         <div className="text-success">
                           <MdDoneOutline size="1.5em" className="mx-auto" />
                           <p className="text-xs text-center uppercase font-semibold">
                             complete
                           </p>
                         </div>
-                      )}
-                      {transaction.status === "error" && (
-                        <div className="text-error">
-                          <MdErrorOutline size="1.5em" className="mx-auto" />
+                      ) : (
+                        <div className="text-info">
+                          <MdOutlinePending size="1.5em" className="mx-auto" />
                           <p className="text-xs text-center uppercase font-semibold">
-                            error
+                            pending
                           </p>
                         </div>
                       )}

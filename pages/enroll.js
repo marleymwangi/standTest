@@ -98,7 +98,6 @@ export default function Enroll() {
   const handleComplete = (e) => {
     e.preventDefault();
     if (!pending && isEmpty(person) && isValidated()) {
-      console.log("creating user");
       let obj = {};
       let fn = firstName.data?.trim(),
         ln = lastName.data?.trim();
@@ -107,7 +106,6 @@ export default function Enroll() {
       obj.name = `${fn} ${ln}`;
       obj.phone = `+254${phoneNumber.data?.trim()}`;
 
-      console.log(obj);
       createUserAccount(obj)
         .then((res) => {
           console.log(res);
@@ -121,7 +119,7 @@ export default function Enroll() {
               closeOnClick: true,
             }
           );
-          Router.push(`/user/profile?id=${obj.phone}}`);
+          Router.push(`/user/profile?id=${obj.phone}`);
         })
         .catch((err) => {
           console.log(err);
@@ -251,11 +249,11 @@ export default function Enroll() {
               </p>
             )}
           </div>
-          <div className="mt-6 grid">
+          <div className="mt-14 px-6 grid">
             <button
               onClick={handleComplete}
               className={classNames(
-                "btn btn-primary btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg mt-6",
+                "btn btn-primary btn-lg rounded-xl w-full md:max-w-md mx-auto shadow-lg",
                 loading && "loading"
               )}
             >

@@ -105,7 +105,7 @@ const usePersonFetch = (phoneNumber) => {
           let { phone, name } = obj;
           let colRef = doc(db, "users", phone);
 
-          setDoc(colRef, { name, points: 0, enrolled: true }).then((res) => {
+          setDoc(colRef, { name, points: 5, enrolled: true }).then((res) => {
             resolve("done");
           });
         }
