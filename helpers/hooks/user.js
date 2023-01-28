@@ -176,9 +176,9 @@ const useUserFetch = () => {
         if (session?.id?.length < 1) {
           reject({ message: "Missing user Id" });
         } else {
-          let docRef = doc(db, "feedback");
+          let colRef = collection(db, "feedback");
 
-          addDoc(docRef, updateObj).then((res) => resolve("done"));
+          addDoc(colRef, updateObj).then((res) => resolve("done"));
         }
       } catch (error) {
         console.log("User Hook: getDrops useEffect: ", error);
@@ -214,7 +214,7 @@ const useUserFetch = () => {
     usersError,
     dropsError,
     updateNotId,
-    addUserFeedback
+    addUserFeedback,
   };
 };
 

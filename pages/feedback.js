@@ -80,7 +80,7 @@ export default function Enroll() {
 
   const handleComplete = (e) => {
     e.preventDefault();
-    if (!pending && isValidated()) {
+    if (isValidated()) {
       let obj = {};
       obj.phone = `+254${phoneNumber.data?.trim()}`;
       obj.content = content.data?.trim();
@@ -92,20 +92,20 @@ export default function Enroll() {
           toast.success(
             <div>
               <h5 className="font-medium text-gray-900">Success</h5>
-              <h6>User account created successfully</h6>
+              <h6>User feedback saved successfully</h6>
             </div>,
             {
               closeOnClick: true,
             }
           );
-          Router.push(`/user/profile?id=${obj.phone}`);
+          Router.push(`/`);
         })
         .catch((err) => {
           console.log(err);
           toast.error(
             <div>
               <h5 className="font-medium text-gray-900">Success</h5>
-              <h6>Error occurred when trying to create the user</h6>
+              <h6>Error occurred when trying to save</h6>
             </div>,
             {
               closeOnClick: true,
@@ -212,7 +212,7 @@ export default function Enroll() {
                 loading && "loading"
               )}
             >
-              Next
+              Save
             </button>
           </div>
         </div>
