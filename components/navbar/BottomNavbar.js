@@ -20,6 +20,12 @@ const BsPeople = dynamic(async () => (await import("react-icons/bs")).BsPeople);
 const BsPeopleFill = dynamic(
   async () => (await import("react-icons/bs")).BsPeopleFill
 );
+const RiQuestionLine = dynamic(
+  async () => (await import("react-icons/ri")).RiQuestionLine
+);
+const RiQuestionFill = dynamic(
+  async () => (await import("react-icons/ri")).RiQuestionFill
+);
 
 export default function BottomNavbar() {
   const router = useRouter();
@@ -31,7 +37,7 @@ export default function BottomNavbar() {
     return null;
   } else {
     return (
-      <div className="fixed bottom-0 z-40 w-screen border-t border-teal-500 bg-base-100 text-primary grid grid-cols-3">
+      <div className="fixed bottom-0 z-40 w-screen border-t border-teal-500 bg-base-100 text-primary grid grid-cols-4">
         <NavItem
           href="/"
           selected={router.pathname === "/"}
@@ -49,6 +55,12 @@ export default function BottomNavbar() {
           selected={router.pathname.indexOf("/user") === 0}
           iconOn={BsPeopleFill}
           iconOff={BsPeople}
+        />
+        <NavItem
+          href="/feedback"
+          selected={router.pathname.indexOf("/feedback") === 0}
+          iconOn={RiQuestionFill}
+          iconOff={RiQuestionLine}
         />
       </div>
     );

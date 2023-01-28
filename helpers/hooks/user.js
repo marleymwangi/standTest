@@ -170,6 +170,25 @@ const useUserFetch = () => {
     });
   }
 
+  function addUserFeedback(updateObj) {
+    return new Promise((resolve, reject) => {
+      try {
+        if (session?.id?.length < 1) {
+          reject({ message: "Missing user Id" });
+        } else {
+          let docRef = doc(db, "feedback");
+
+          addDoc(docRef, updateObj).then((res) => resolve("done"));
+        }
+      } catch (error) {
+        console.log("User Hook: getDrops useEffect: ", error);
+        console.info("User Hook: setUserDataDb:");
+        console.error(error);
+        reject(error);
+      }
+    });
+  }
+
   function updateNotId(obj) {
     if (isEmpty(obj)) {
       reject({ message: "No data to update" });
@@ -195,6 +214,7 @@ const useUserFetch = () => {
     usersError,
     dropsError,
     updateNotId,
+    addUserFeedback
   };
 };
 

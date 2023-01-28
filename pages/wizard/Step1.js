@@ -73,7 +73,7 @@ export default function Step1({ payload, setPayload, setStep }) {
           <input
             placeholder=" "
             onChange={change}
-            type="text"
+            type="number"
             className={classNames(
               "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
               phoneNumber?.state === "success" && "text-success border-success",

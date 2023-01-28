@@ -14,6 +14,8 @@ export default function Containers({ data, updateFunc }) {
   const [otherBrand, setOtherBrand] = useState("");
   const [prod, setProd] = useState("");
   const [otherProd, setOtherProd] = useState("");
+  const [size, setSize] = useState("");
+  const [units, setUnits] = useState("");
   const [containers, setContainers] = useState(0);
 
   const change = (event, setFunction, type = "str") => {
@@ -83,6 +85,43 @@ export default function Containers({ data, updateFunc }) {
         ))}
         <option value="other">Other</option>
       </select>
+      <div className="flex gap-3 items-center">
+        <div className="relative form-control w-1/2">
+          <input
+            placeholder=" "
+            onChange={(e) => change(e, setSize, "str")}
+            type="text"
+            className={classNames(
+              "block rounded-lg px-2.5 pb-2.5 pt-4 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
+              "border-teal-500 focus:border-teal-500"
+            )}
+          />
+          <label
+            className={classNames(
+              "absolute text-sm duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3",
+              "text-teal-600 peer-focus:text-teal-600"
+            )}
+          >
+            Units
+          </label>
+        </div>
+        <select
+          onChange={(e) => change(e, setUnits, "sel")}
+          defaultValue={"default"}
+          className={classNames(
+            "select w-1/2",
+            false ? "text-error select-error" : "select-primary"
+          )}
+        >
+          <option disabled value={"default"}>
+            Size
+          </option>
+          <option value="ml">Millilitres</option>
+          <option value="l">Litres</option>
+          <option value="g">Grams</option>
+          <option value="kg">Kilograms</option>
+        </select>
+      </div>
       <select
         onChange={(e) => change(e, setBrand, "sel")}
         defaultValue={"default"}
