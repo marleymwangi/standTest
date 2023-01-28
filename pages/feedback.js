@@ -121,7 +121,7 @@ export default function Enroll() {
       <main className="min-h-[95vh] px-6 pt-20 pb-16">
         <div className="mx-auto pb-10 w-full">
           <p className="text-sm text-teal-600 font-medium text-center mb-3">
-            Customer Enrollment
+            Customer Feedback
           </p>
           <div className="grid gap-4">
             <div className="flex gap-1 items-center">
