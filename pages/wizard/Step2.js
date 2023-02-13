@@ -10,15 +10,7 @@ const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
 
 export default function Step2({ payload, setPayload, setStep }) {
   const { pending, error } = usePersonFetch(payload?.user?.id);
-  const [brandContainers, setBrandContainers] = useState({
-    data: [],
-    state: null,
-  });
-  const [update, setUpdate] = useState(true);
-
-  const toggle = () => {
-    setUpdate(!update);
-  };
+  const [brandContainers, setBrandContainers] = useState([]);
 
   useEffect(() => {
     if (isEmpty(payload?.user)) {
@@ -29,19 +21,17 @@ export default function Step2({ payload, setPayload, setStep }) {
   const addContainer = (e) => {
     e.preventDefault();
     let tmp = [
-      ...brandContainers.data,
+      ...brandContainers,
       {
         brand: "",
         containers: 0,
       },
     ];
-    setBrandContainers({
-      data: tmp,
-    });
+    setBrandContainers([...tmp]);
   };
 
   const validate = () => {
-    let res = brandContainers?.data.some((containers) => {
+    let res = brandContainers?.some((containers) => {
       if (containers.brand?.length < 1) {
         setBrandContainers({
           ...brandContainers,
@@ -71,8 +61,8 @@ export default function Step2({ payload, setPayload, setStep }) {
   const handleComplete = (e) => {
     e.preventDefault();
     let isValid = validate();
-    if (!pending && !error && brandContainers?.data?.length > 0 && isValid) {
-      setPayload({ ...payload, containers: brandContainers.data });
+    if (!pending && !error && brandContainers?.length > 0 && isValid) {
+      setPayload({ ...payload, containers: brandContainers });
       setStep("confirm");
     }
   };
@@ -83,14 +73,13 @@ export default function Step2({ payload, setPayload, setStep }) {
         Customer Containers
       </p>
       <div className="grid mt-6 gap-6">
-        {brandContainers?.data?.length > 0 &&
-          brandContainers?.data.map((bC, i) => (
+        {brandContainers?.length > 0 &&
+          brandContainers?.map((_, i) => (
             <div key={i}>
               <Containers
-                data={bC}
-                state={brandContainers?.state}
-                message={brandContainers.mess}
-                updateFunc={toggle}
+                index={i}
+                data={brandContainers}
+                updateFunc={setBrandContainers}
               />
             </div>
           ))}

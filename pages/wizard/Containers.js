@@ -6,70 +6,144 @@ import {
   wasteTypes,
   classNames,
   productsDict,
+  verifyNumber,
 } from "../../helpers/utility";
 
-export default function Containers({ data, updateFunc }) {
-  const [type, setType] = useState("");
-  const [brand, setBrand] = useState("");
-  const [otherBrand, setOtherBrand] = useState("");
-  const [prod, setProd] = useState("");
-  const [otherProd, setOtherProd] = useState("");
-  const [size, setSize] = useState("");
-  const [units, setUnits] = useState("");
+export default function Containers({ data, index, updateFunc }) {
+  const [dataObject, setDataObject] = useState({});
+  const [inputStates, setinputStates] = useState({});
+
   const [containers, setContainers] = useState(0);
 
-  const change = (event, setFunction, type = "str") => {
+  const change = (event, type = "str") => {
     switch (type) {
       case "sel":
-        if (event.target.value !== "default") {
-          setFunction(event.target.value);
+        setDataObject((prevState) => {
+          return {
+            ...prevState,
+            [event.target.name]: event.target.value,
+          };
+        });
+
+        if (event.target.value?.length > 0) {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: "success",
+            };
+          });
+        } else {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: null,
+            };
+          });
         }
         break;
       case "str":
-        setFunction(event.target.value);
+        setDataObject((prevState) => {
+          return {
+            ...prevState,
+            [event.target.name]: event.target.value,
+          };
+        });
+
+        if (event.target.value?.length > 0) {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: "success",
+            };
+          });
+        } else {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: null,
+            };
+          });
+        }
         break;
+      case "num":
+        if (verifyNumber(event.target.value) || event.target.value === "") {
+          setDataObject((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: event.target.value,
+            };
+          });
+
+          if (event.target.value?.length > 0) {
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: "success",
+              };
+            });
+          } else {
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: null,
+              };
+            });
+          }
+        } else {
+          setinputStates({
+            ...inputStates,
+            [event.target.name]: {
+              error: true,
+              mess: "Please enter a valid input",
+            },
+          });
+        }
       default:
         break;
     }
   };
 
   useEffect(() => {
-    data.type = type;
-    updateFunc();
-  }, [type]);
-
-  useEffect(() => {
-    if (brand === "other") {
-      data.brand = otherBrand.trim();
-      data.ob = true;
-    } else {
-      data.brand = brand;
+    let cpy = JSON.parse(JSON.stringify(data));
+    let tmp = cpy[index];
+    if (dataObject?.type?.length > 0) {
+      tmp.type = dataObject.type;
     }
-    updateFunc();
-  }, [brand, otherBrand]);
-
-  useEffect(() => {
-    console.log(prod);
-    if (prod === "other") {
-      data.product = otherProd.trim();
-      data.op = true;
-    } else {
-      data.product = prod;
+    if (dataObject?.size?.length > 0) {
+      tmp.size = dataObject.size;
     }
-    updateFunc();
-  }, [prod, otherProd]);
+    if (dataObject?.units?.length > 0) {
+      tmp.units = dataObject.units;
+    }
+    if (dataObject.brand === "other") {
+      tmp.brand = dataObject?.otherBrand?.trim();
+      tmp.ob = true;
+    } else if (dataObject.brand?.length > 0) {
+      tmp.brand = dataObject?.brand;
+    }
+    if (dataObject?.product === "other") {
+      tmp.product = dataObject?.otherProd?.trim();
+      tmp.op = true;
+    } else if (dataObject?.product?.length > 0) {
+      tmp.product = dataObject?.product;
+    }
+    updateFunc(cpy); 
+  }, [dataObject]);
 
   useEffect(() => {
-    data.containers = containers;
-    updateFunc();
+    let cpy = JSON.parse(JSON.stringify(data));
+    let tmp = cpy[index];
+    tmp.containers = containers;
+    updateFunc(cpy);    
   }, [containers]);
 
   return (
     <div className="mx-auto w-full max-w-sm grid gap-3">
       <p className="text-primary text-xs text-center">Select Brand</p>
       <select
-        onChange={(e) => change(e, setType, "sel")}
+        name="type"
         defaultValue={"default"}
+        onChange={(e) => change(e, "sel")}
         className={classNames(
           "select w-full",
           false ? "text-error select-error" : "select-primary"
@@ -83,14 +157,15 @@ export default function Containers({ data, updateFunc }) {
             {type.text}
           </option>
         ))}
-        <option value="other">Other</option>
       </select>
       <div className="flex gap-3 items-center">
         <div className="relative form-control w-1/2">
           <input
+            name="size"
+            type="number"
             placeholder=" "
-            onChange={(e) => change(e, setSize, "str")}
-            type="text"
+            value={dataObject?.size || ""}
+            onChange={(e) => change(e, "num")}
             className={classNames(
               "block rounded-lg px-2.5 pb-2.5 pt-4 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
               "border-teal-500 focus:border-teal-500"
@@ -102,19 +177,20 @@ export default function Containers({ data, updateFunc }) {
               "text-teal-600 peer-focus:text-teal-600"
             )}
           >
-            Units
+            Size
           </label>
         </div>
         <select
-          onChange={(e) => change(e, setUnits, "sel")}
+          name="units"
           defaultValue={"default"}
+          onChange={(e) => change(e, "sel")}
           className={classNames(
             "select w-1/2",
             false ? "text-error select-error" : "select-primary"
           )}
         >
           <option disabled value={"default"}>
-            Size
+            Units
           </option>
           <option value="ml">Millilitres</option>
           <option value="l">Litres</option>
@@ -123,8 +199,9 @@ export default function Containers({ data, updateFunc }) {
         </select>
       </div>
       <select
-        onChange={(e) => change(e, setBrand, "sel")}
+        name="brand"
         defaultValue={"default"}
+        onChange={(e) => change(e, "sel")}
         className={classNames(
           "select w-full",
           false ? "text-error select-error" : "select-primary"
@@ -142,12 +219,14 @@ export default function Containers({ data, updateFunc }) {
       </select>
       {
         //other brand
-        brand === "other" && (
+        dataObject?.brand === "other" && (
           <div className="relative form-control w-full">
             <input
               type="text"
               placeholder=" "
-              onChange={(e) => change(e, setOtherBrand)}
+              name="otherBrand"
+              value={dataObject?.otherBrand || ""}
+              onChange={(e) => change(e, "str")}
               className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-teal-900 border-teal-500 focus:border-teal-500 font-medium"
             />
             <label
@@ -158,17 +237,19 @@ export default function Containers({ data, updateFunc }) {
             >
               Brand
             </label>
-            {otherBrand.trim() === "" && (
+            {inputStates?.otherBrand?.error && (
               <p className="text-error text-xs italic text-center mt-1">
-                Brand is required
+                {inputStates?.otherBrand?.mess}
               </p>
             )}
           </div>
         )
       }
       <select
-        onChange={(e) => change(e, setProd, "sel")}
+        name="product"
         defaultValue={"default"}
+        value={dataObject?.product}
+        onChange={(e) => change(e, "sel")}
         className={classNames(
           "select w-full",
           false ? "text-error select-error" : "select-primary"
@@ -177,8 +258,8 @@ export default function Containers({ data, updateFunc }) {
         <option disabled value={"default"}>
           Select Product
         </option>
-        {productsDict[brand]?.length > 0 &&
-          productsDict[brand].map((p, i) => (
+        {productsDict[dataObject?.brand]?.length > 0 &&
+          productsDict[dataObject?.brand].map((p, i) => (
             <option key={i} value={p.value}>
               {p.text}
             </option>
@@ -187,12 +268,13 @@ export default function Containers({ data, updateFunc }) {
       </select>
       {
         //other product
-        prod === "other" && (
+        dataObject?.product === "other" && (
           <div className="relative form-control w-full">
             <input
               type="text"
               placeholder=" "
-              onChange={(e) => change(e, setOtherProd)}
+              name="otherProd"
+              onChange={(e) => change(e, "str")}
               className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-teal-900 border-teal-500 focus:border-teal-500 font-medium"
             />
             <label
@@ -203,9 +285,9 @@ export default function Containers({ data, updateFunc }) {
             >
               Product
             </label>
-            {otherProd.trim() === "" && (
+            {inputStates?.otherProd?.error && (
               <p className="text-error text-xs italic text-center mt-1">
-                Product is required
+                {inputStates?.otherProd?.mess}
               </p>
             )}
           </div>

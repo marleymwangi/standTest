@@ -59,7 +59,7 @@ export default function ModalDrop() {
             <p className="text-gray-400">Points Allocation</p>{" "}
             <p className="font-medium capitalize">{selDrop?.status}</p>
             <p className="text-gray-400">Location</p>{" "}
-            <p className="font-medium capitalize">Quickmart Ruaka</p>
+            <p className="font-medium capitalize">Quickmart Kilimani</p>
             <p className="col-span-2 text-lg font-semibold mt-6 text-gray-400">
               Containers
             </p>

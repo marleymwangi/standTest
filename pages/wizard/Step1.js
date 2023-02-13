@@ -7,41 +7,61 @@ import Loader from "../../components/elements/Loader";
 import { classNames, isEmpty, verifyNumber } from "../../helpers/utility";
 
 export default function Step1({ payload, setPayload, setStep }) {
-  const [phoneNumber, setPhoneNumber] = useState({ data: "", state: null });
-  const { person, pending, error } = usePersonFetch(`+254${phoneNumber?.data}`);
+  const [dataObject, setDataObject] = useState({});
+  const [inputStates, setinputStates] = useState({});
+  const { person, pending, error } = usePersonFetch(`+254${dataObject?.phoneNumber}`);
 
-  const change = (event) => {
+  const change = (event, type = "num") => {
     event.preventDefault();
-    if (verifyNumber(event.target.value)) {
-      if (event.target.value.length < 9) {
-        setPhoneNumber({
-          data: event.target.value,
-          state: null,
-        });
-      } else if (event.target.value.length === 9) {
-        setPhoneNumber({
-          data: event.target.value,
-          state: "success",
-        });
-      } else {
-        setPhoneNumber({
-          data: event.target.value,
-          state: "error",
-          mess: "Input is too long",
-        });
-      }
-    } else {
-      setPhoneNumber({
-        data: event.target.value,
-        state: "error",
-        mess: "Input must be a number",
-      });
-    }
-  };
+    switch (type) {
+      case "num":
+        if (verifyNumber(event.target.value) || event.target.value === "") {
+          setDataObject((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: event.target.value,
+            };
+          });
 
-  useEffect(() => {
-    //console.log(person);
-  }, [person]);
+          if (event.target.value.length < 9) {
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: null,
+              };
+            });
+          } else if (event.target.value.length === 9) {
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: "success",
+              };
+            });
+          } else {
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: {
+                  error: true,
+                  mess: "Phone number is too long",
+                },
+              };
+            });
+          }
+        } else {
+          setinputStates({
+            ...inputStates,
+            [event.target.name]: {
+              error: true,
+              mess: "Please enter a valid input",
+            },
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  };  
 
   const handleComplete = (e) => {
     e.preventDefault();
@@ -56,14 +76,14 @@ export default function Step1({ payload, setPayload, setStep }) {
       <p className="text-sm text-teal-600 font-medium text-center mb-3">
         Customer Phone Number
       </p>
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-2 items-center">
         <button
           className={classNames(
             "btn btn-primary h-[4em] border-2",
-            phoneNumber?.state === "success" && "btn-success text-white",
-            phoneNumber?.state === "error" && "btn-error text-white",
-            phoneNumber?.state !== "success" &&
-              phoneNumber?.state !== "error" &&
+            inputStates?.phoneNumber === "success" && "btn-success text-white",
+            inputStates?.phoneNumber?.error && "btn-error text-white",
+            inputStates?.phoneNumber !== "success" &&
+              !inputStates?.phoneNumber?.error &&
               "btn-primary"
           )}
         >
@@ -71,25 +91,28 @@ export default function Step1({ payload, setPayload, setStep }) {
         </button>
         <div className="relative form-control w-full">
           <input
-            placeholder=" "
-            onChange={change}
             type="number"
+            placeholder=" "
+            name="phoneNumber"
+            value={dataObject?.phoneNumber || ""}
+            onChange={(e) => change(e, "num")}
             className={classNames(
               "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
-              phoneNumber?.state === "success" && "text-success border-success",
-              phoneNumber?.state === "error" && "text-error border-error",
-              phoneNumber?.state !== "success" &&
-                phoneNumber?.state !== "error" &&
+              inputStates?.phoneNumber === "success" &&
+                "text-success border-success",
+              inputStates?.phoneNumber?.error && "text-error border-error",
+              inputStates?.phoneNumber !== "success" &&
+                !inputStates?.phoneNumber?.error &&
                 "text-teal-500 border-teal-500 focus:border-teal-500"
             )}
           />
           <label
             className={classNames(
               "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
-              phoneNumber?.state === "success" && "text-success",
-              phoneNumber?.state === "error" && "text-error",
-              phoneNumber?.state !== "success" &&
-                phoneNumber?.state !== "error" &&
+              inputStates?.phoneNumber === "success" && "text-success",
+              inputStates?.phoneNumber?.error && "text-error",
+              inputStates?.phoneNumber !== "success" &&
+                !inputStates?.phoneNumber?.error &&
                 "text-teal-700 peer-focus:text-teal-600"
             )}
           >
@@ -97,14 +120,17 @@ export default function Step1({ payload, setPayload, setStep }) {
           </label>
         </div>
       </div>
-      {phoneNumber.state === "error" && (
+      {inputStates?.phoneNumber?.error && (
         <p className="text-error text-xs italic text-center mt-1">
-          Please enter valid Input. {phoneNumber?.mess}
+          {inputStates?.phoneNumber?.mess}
         </p>
       )}
       <div className="grid place-content-center mt-[1vh] text-center text-teal-700 rounded-box min-h-[30vh]">
         <p className="font-medium text-lg text-gray-400">
-          {!pending && !person?.name && !payload?.user && "No user was found. Verify the number and try again"}
+          {!pending &&
+            !person?.name &&
+            !payload?.user &&
+            "No user was found. Verify the number and try again"}
         </p>
         {pending && (
           <div>
@@ -141,7 +167,9 @@ export default function Step1({ payload, setPayload, setStep }) {
               />
             </div>
             <p className="text-lg font-medium text-gray-400 mt-2">User Name</p>
-            <p className="text-2xl font-medium text-primary">{payload?.user.name}</p>
+            <p className="text-2xl font-medium text-primary">
+              {payload?.user.name}
+            </p>
           </div>
         )}
         {!pending && !person?.name && error && (

@@ -7,52 +7,80 @@ import useUserFetch from "../helpers/hooks/user";
 import { classNames, isEmpty, verifyNumber } from "../helpers/utility";
 import { AuthGuard } from "../components/elements/AuthGuard";
 
-export default function Enroll() {
+export default function FeedbackPage() {
   const [loading, setLoading] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState({ data: "", state: null });
-  const [content, setContent] = useState({ data: "", state: null });
+  const [dataObject, setDataObject] = useState({});
+  const [inputStates, setinputStates] = useState({});
   const { addUserFeedback } = useUserFetch();
 
-  const change = (event, setFunction, type = "str") => {
+  const change = (event, type = "str") => {
     event.preventDefault();
     switch (type) {
       case "num":
-        if (verifyNumber(event.target.value)) {
+        if (verifyNumber(event.target.value) || event.target.value === "") {
+          setDataObject((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: event.target.value,
+            };
+          });
+
           if (event.target.value.length < 9) {
-            setPhoneNumber({
-              data: event.target.value,
-              state: null,
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: null,
+              };
             });
           } else if (event.target.value.length === 9) {
-            setPhoneNumber({
-              data: event.target.value,
-              state: "success",
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: "success",
+              };
             });
           } else {
-            setPhoneNumber({
-              data: event.target.value,
-              state: "error",
-              mess: "Phone number is too long",
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: {
+                  error: true,
+                  mess: "Phone number is too long",
+                },
+              };
             });
           }
         } else {
-          setPhoneNumber({
-            data: event.target.value,
-            state: "error",
-            mess: "Input must be a number",
+          setinputStates({
+            ...inputStates,
+            [event.target.name]: {
+              error: true,
+              mess: "Please enter a valid input",
+            },
           });
         }
         break;
       case "str":
+        setDataObject((prevState) => {
+          return {
+            ...prevState,
+            [event.target.name]: event.target.value,
+          };
+        });
+
         if (event.target.value?.length > 0) {
-          setFunction({
-            data: event.target.value,
-            state: "success",
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: "success",
+            };
           });
         } else {
-          setFunction({
-            data: event.target.value,
-            state: null,
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: null,
+            };
           });
         }
         break;
@@ -63,16 +91,44 @@ export default function Enroll() {
 
   const isValidated = () => {
     if (
-      content.state === "success" &&
-      phoneNumber.state === "success"
+      inputStates?.title === "success" &&
+      inputStates?.content === "success" &&
+      inputStates?.phoneNumber === "success"
     ) {
       return true;
     } else {
-      if (content.state !== "success") {
-        setContent({ ...content, state: "error" });
+      if (inputStates?.title !== "success") {
+        setinputStates((prevState) => {
+          return {
+            ...prevState,
+            title: {
+              error: true,
+              mess: "Please enter a valid input",
+            },
+          };
+        });
       }
-      if (phoneNumber.state !== "success") {
-        setPhoneNumber({ ...phoneNumber, state: "error" });
+      if (inputStates?.content !== "success") {
+        setinputStates((prevState) => {
+          return {
+            ...prevState,
+            content: {
+              error: true,
+              mess: "Please enter a valid input",
+            },
+          };
+        });
+      }
+      if (inputStates?.phoneNumber !== "success") {
+        setinputStates((prevState) => {
+          return {
+            ...prevState,
+            phoneNumber: {
+              error: true,
+              mess: "Please enter a valid input",
+            },
+          };
+        });
       }
       return false;
     }
@@ -82,8 +138,9 @@ export default function Enroll() {
     e.preventDefault();
     if (isValidated()) {
       let obj = {};
-      obj.phone = `+254${phoneNumber.data?.trim()}`;
-      obj.content = content.data?.trim();
+      obj.phone = `+254${dataObject?.phoneNumber?.trim()}`;
+      obj.title = dataObject?.title?.trim();
+      obj.content = dataObject?.content?.trim();
 
       addUserFeedback(obj)
         .then((res) => {
@@ -124,14 +181,15 @@ export default function Enroll() {
             Customer Feedback
           </p>
           <div className="grid gap-4">
-            <div className="flex gap-1 items-center">
+            <div className="flex gap-2 items-center">
               <button
                 className={classNames(
                   "btn btn-primary h-[4em] border-2",
-                  phoneNumber?.state === "success" && "btn-success text-white",
-                  phoneNumber?.state === "error" && "btn-error text-white",
-                  phoneNumber?.state !== "success" &&
-                    phoneNumber?.state !== "error" &&
+                  inputStates?.phoneNumber === "success" &&
+                    "btn-success text-white",
+                  inputStates?.phoneNumber?.error && "btn-error text-white",
+                  inputStates?.phoneNumber !== "success" &&
+                    !inputStates?.phoneNumber?.error &&
                     "btn-primary"
                 )}
               >
@@ -139,26 +197,29 @@ export default function Enroll() {
               </button>
               <div className="relative form-control w-full">
                 <input
+                  type="number"
                   placeholder=" "
-                  onChange={(e) => change(e, setPhoneNumber, "num")}
-                  type="text"
+                  name="phoneNumber"
+                  value={dataObject?.phoneNumber || ""}
+                  onChange={(e) => change(e, "num")}
                   className={classNames(
                     "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
-                    phoneNumber?.state === "success" &&
+                    inputStates?.phoneNumber === "success" &&
                       "text-success border-success",
-                    phoneNumber?.state === "error" && "text-error border-error",
-                    phoneNumber?.state !== "success" &&
-                      phoneNumber?.state !== "error" &&
+                    inputStates?.phoneNumber?.error &&
+                      "text-error border-error",
+                    inputStates?.phoneNumber !== "success" &&
+                      !inputStates?.phoneNumber?.error &&
                       "text-teal-500 border-teal-500 focus:border-teal-500"
                   )}
                 />
                 <label
                   className={classNames(
                     "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
-                    phoneNumber?.state === "success" && "text-success",
-                    phoneNumber?.state === "error" && "text-error",
-                    phoneNumber?.state !== "success" &&
-                      phoneNumber?.state !== "error" &&
+                    inputStates?.phoneNumber === "success" && "text-success",
+                    inputStates?.phoneNumber?.error && "text-error",
+                    inputStates?.phoneNumber !== "success" &&
+                      !inputStates?.phoneNumber?.error &&
                       "text-teal-700 peer-focus:text-teal-600"
                   )}
                 >
@@ -166,39 +227,70 @@ export default function Enroll() {
                 </label>
               </div>
             </div>
-            {phoneNumber.state === "error" && (
+            {inputStates?.phoneNumber?.error && (
               <p className="text-error text-xs italic text-center mt-1">
-                {phoneNumber?.mess}
+                {inputStates?.phoneNumber?.mess}
               </p>
             )}
           </div>
           <div className="relative form-control w-full mt-3">
+              <input
+                type="text"
+                placeholder=" "
+                name="title"
+                value={dataObject?.title || ""}
+                onChange={(e) => change(e, "str")}
+                className={classNames(
+                  "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
+                  inputStates?.title === "success" &&
+                    "text-success border-success",
+                  inputStates?.title?.error && "text-error border-error",
+                  inputStates?.title !== "success" &&
+                    !inputStates?.title?.error &&
+                    "text-teal-500 border-teal-500 focus:border-teal-500"
+                )}
+              />
+              <label
+                className={classNames(
+                  "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
+                  inputStates?.title === "success" && "text-success",
+                  inputStates?.title?.error && "text-error",
+                  inputStates?.title !== "success" &&
+                    !inputStates?.title?.error &&
+                    "text-teal-700 peer-focus:text-teal-600"
+                )}
+              >
+                Title
+              </label>
+            </div>
+          <div className="relative form-control w-full mt-3">
             <textarea
               type="text"
+              name="content"
               placeholder=" "
-              onChange={(event) => change(event, setContent)}
+              onChange={(e) => change(e, "str")}
               className={classNames(
                 "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer",
-                content?.state === "success" && "text-success border-success",
-                content?.state === "error" && "text-error border-error",
-                content?.state !== "success" &&
-                  content?.state !== "error" &&
+                inputStates?.content === "success" && "text-success border-success",
+                inputStates?.content?.error && "text-error border-error",
+                inputStates?.content !== "success" &&
+                    !inputStates?.content?.error &&
                   "border-teal-500 focus:border-teal-500"
               )}
             />
             <label
               className={classNames(
                 "absolute text-sm duration-300 transform -translate-y-2 scale-75 top-3 z-10 origin-[0] left-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2",
-                content?.state === "success" && "text-success",
-                content?.state === "error" && "text-error",
-                content?.state !== "success" &&
-                  content?.state !== "error" &&
+                inputStates?.content === "success" && "text-success border-success",
+                inputStates?.content?.error && "text-error border-error",
+                inputStates?.content !== "success" &&
+                    !inputStates?.content?.error &&
                   "text-teal-700 peer-focus:text-teal-600"
               )}
             >
               Note Content
             </label>
-            {content?.state === "error" && (
+            {inputStates?.content?.error  && (
               <p className="text-error text-xs italic text-center mt-1">
                 Please enter a valid content
               </p>

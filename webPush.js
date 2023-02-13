@@ -6,11 +6,11 @@ const firebaseCloudMessaging = {
   init: async () => {
     try {
       const messaging = getMessaging(app);
-      // const tokenInLocalForage = await localforage.getItem('fcm_token')
+      const tokenInLocalForage = await localforage.getItem("fcm_token");
 
-      // if (tokenInLocalForage !== null) {
-      //     return tokenInLocalForage
-      // }
+      if (tokenInLocalForage !== null) {
+        return tokenInLocalForage;
+      }
 
       const status = await Notification.requestPermission();
       if (status && status === "granted") {

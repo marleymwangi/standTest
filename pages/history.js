@@ -44,24 +44,24 @@ export default function History() {
   };
 
   let filtered =
-  text.length > 0
-    ? drops.filter((drop) => {
-        let phone = drop.user.id;
-        let names = drop.user.name.toLowerCase().split(" ");
-        let matched = names.some((name) =>
-          name
-            .toLowerCase()
-            .startsWith(text.slice(0, Math.max(name.length - 1, 1)))
-        );
-        return phone.includes(text.toLowerCase()) || matched;
-      })
-    : drops;
+    text.length > 0
+      ? drops.filter((drop) => {
+          let phone = drop.user.id;
+          let names = drop.user.name.toLowerCase().split(" ");
+          let matched = names.some((name) =>
+            name
+              .toLowerCase()
+              .startsWith(text.slice(0, Math.max(name.length - 1, 1)))
+          );
+          return phone.includes(text.toLowerCase()) || matched;
+        })
+      : drops;
 
   return (
     <AuthGuard>
       <main className="min-h-[95vh] pt-20 pb-16">
         <section className="container mx-auto">
-        <div className="relative form-control w-full mb-4">
+          <div className="relative form-control w-full mb-4">
             <input
               type="text"
               placeholder=" "
