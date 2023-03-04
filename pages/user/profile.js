@@ -29,7 +29,7 @@ export default function Profile() {
     <AuthGuard>
       <main className="min-h-[95vh] pt-20 pb-16 px-6 flex flex-col gap-4 items-start">
         <section className="flex flex-col items-center container mx-auto">
-          <div className="relative rounded-box w-24 h-24 mask mask-squircle mt-2 mx-auto bg-gradient-to-r from-teal-500 via-teal-300 to-teal-500">
+          <div className="relative rounded-box w-24 h-24 mask mask-squircle mt-2 mx-auto bg-gradient-to-r from-emerald-500 via-emerald-300 to-emerald-500">
             <Image
               src="/images/user.webp"
               className="object-contain"
@@ -89,19 +89,19 @@ export default function Profile() {
                   <div className="p-3 flex-1 border-t border-r border-dashed">
                     <div className="flex gap-4">
                       <div className="">
-                        <p className="text-xs font-medium text-teal-600">
+                        <p className="text-xs font-medium text-emerald-600">
                           <span className="text-gray-400 capitalize">
                             File Id :
                           </span>{" "}
                           {transaction?.file_id}
                         </p>
-                        <p className="text-xs font-medium text-teal-600">
+                        <p className="text-xs font-medium text-emerald-600">
                           <span className="text-gray-400 capitalize">
                             Amount :
                           </span>{" "}
                           {transaction?.paid_amount}
                         </p>
-                        <p className="text-xs font-medium text-teal-600">
+                        <p className="text-xs font-medium text-emerald-600">
                           <span className="text-gray-400 capitalize">
                             Provider Ref :
                           </span>{" "}

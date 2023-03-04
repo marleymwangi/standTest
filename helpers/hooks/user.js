@@ -9,6 +9,7 @@ import {
   orderBy,
   collection,
   onSnapshot,
+  serverTimestamp,
 } from "@firebase/firestore";
 import { db } from "../../firebase";
 import localforage from "localforage";
@@ -176,7 +177,8 @@ const useUserFetch = () => {
         if (session?.id?.length < 1) {
           reject({ message: "Missing user Id" });
         } else {
-          let colRef = collection(db, "feedback");
+          let colRef = collection(db, "stand_feedback");
+          updateObj.timestamp = serverTimestamp();
 
           addDoc(colRef, updateObj).then((res) => resolve("done"));
         }

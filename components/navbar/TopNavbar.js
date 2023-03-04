@@ -23,7 +23,7 @@ export default function TopNavbar() {
     return null;
   } else {
     return (
-      <nav className="fixed top-0 z-40 border-b border-emerald-500 bg-base-100 shadow max-w-screen w-full p-1 flex justify-between text-primary">
+      <nav className="fixed top-0 z-40 border-b border-secondary bg-base-100 shadow max-w-screen w-full p-1 flex justify-between text-primary">
         <div onClick={handleBack} className="grid place-content-center">
           <button className="btn btn-circle btn-ghost">
             <BiLeftArrow size={size} />

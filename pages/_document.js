@@ -41,7 +41,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
-          <div id="loader" className="h-screen w-full fixed bg-teal-600 z-50 flex justify-center items-center">
+          <div id="loader" className="h-screen w-full fixed bg-emerald-600 z-50 flex justify-center items-center">
             <h1 className="text-5xl text-white font-bold uppercase">Taka Earth</h1>
           </div>
           <Main />

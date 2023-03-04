@@ -69,7 +69,7 @@ export default function Step2({ payload, setPayload, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-lg text-teal-600 font-medium text-center">
+      <p className="text-lg text-emerald-600 font-medium text-center">
         Customer Containers
       </p>
       <div className="grid mt-6 gap-6">

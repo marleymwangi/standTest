@@ -9,7 +9,7 @@ export default function Home() {
       <main className="min-h-[95vh] pt-20 pb-16">
         <section className="container mx-auto grid gap-6">
         <Link href="/enroll">
-            <div className="bg-primary h-[25vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-teal-500 flex flex-col items-center shadow-xl">
+            <div className="bg-primary h-[25vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-emerald-500 flex flex-col items-center shadow-xl">
               <div className="relative h-[80%] w-full rounded-xl overflow-hidden">
                 <Image
                   src="/images/register.jpg"
@@ -22,7 +22,7 @@ export default function Home() {
             </div>
           </Link>
           <Link href="/wizard">
-            <div className="bg-primary h-[25vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-teal-500 flex flex-col items-center shadow-xl">
+            <div className="bg-primary h-[25vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-emerald-500 flex flex-col items-center shadow-xl">
               <div className="relative h-[80%] w-full rounded-xl overflow-hidden">
                 <Image
                   src="/images/drop.jpg"
@@ -35,7 +35,7 @@ export default function Home() {
             </div>
           </Link>
           <Link href="/history">
-            <div className="bg-primary h-[25vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-teal-500 flex flex-col items-center shadow-xl">
+            <div className="bg-primary h-[25vh] w-[60vw] mx-auto rounded-box overflow-hidden border-4 p-2 border-emerald-500 flex flex-col items-center shadow-xl">
               <div className="relative h-[80%] w-full  rounded-xl overflow-hidden">
                 <Image
                   src="/images/history.jpg"

@@ -95,7 +95,7 @@ export default function SignIn({ providers }) {
     Object.values(providers)?.find((p) => p?.type === "credentials");
 
   return (
-    <main className="relative h-screen w-screen bg-teal-50 flex flex-col justify-end">
+    <main className="relative h-screen w-screen bg-emerald-50 flex flex-col justify-end">
       <p className="font-poppins font-bold text-primary text-4xl text-center uppercase py-6">
         Taka Stand
       </p>
@@ -112,7 +112,7 @@ export default function SignIn({ providers }) {
                 email?.state === "error" && "text-error border-error",
                 email?.state !== "success" &&
                   email?.state !== "error" &&
-                  "text-teal-500 border-teal-500 focus:border-teal-500"
+                  "text-emerald-500 border-emerald-500 focus:border-emerald-500"
               )}
             />
             <label
@@ -122,7 +122,7 @@ export default function SignIn({ providers }) {
                 email?.state === "error" && "text-error",
                 email?.state !== "success" &&
                   email?.state !== "error" &&
-                  "text-teal-700 peer-focus:text-teal-600"
+                  "text-emerald-700 peer-focus:text-emerald-600"
               )}
             >
               Email
@@ -146,7 +146,7 @@ export default function SignIn({ providers }) {
                   password?.state === "error" && "text-error border-error",
                   password?.state !== "success" &&
                     password?.state !== "error" &&
-                    "text-teal-500 border-teal-500 focus:border-teal-500"
+                    "text-emerald-500 border-emerald-500 focus:border-emerald-500"
                 )}
               />
               <label
@@ -156,7 +156,7 @@ export default function SignIn({ providers }) {
                   password?.state === "error" && "text-error",
                   password?.state !== "success" &&
                     password?.state !== "error" &&
-                    "text-teal-700 peer-focus:text-teal-600"
+                    "text-emerald-700 peer-focus:text-emerald-600"
                 )}
               >
                 Password

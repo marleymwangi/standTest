@@ -9,6 +9,7 @@ import {
   orderBy,
   collection,
   onSnapshot,
+  serverTimestamp,
 } from "@firebase/firestore";
 //custom
 import { db } from "../../firebase";
@@ -105,7 +106,13 @@ const usePersonFetch = (phoneNumber) => {
           let { phone, name } = obj;
           let colRef = doc(db, "users", phone);
 
-          setDoc(colRef, { name, points: 5 }).then((res) => {
+          setDoc(colRef, {
+            name,
+            points: 5,
+            enrolled: "stand",
+            state: "active",
+            created: serverTimestamp(),
+          }).then((res) => {
             resolve("done");
           });
         }
@@ -130,6 +137,7 @@ const usePersonFetch = (phoneNumber) => {
           let colRef = collection(db, "drops");
           obj.submitted = session.id;
           obj.status = "pending";
+          obj.timestamp = serverTimestamp();
 
           addDoc(colRef, obj).then((res) => resolve("done"));
         }

@@ -168,13 +168,13 @@ export default function Containers({ data, index, updateFunc }) {
             onChange={(e) => change(e, "num")}
             className={classNames(
               "block rounded-lg px-2.5 pb-2.5 pt-4 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
-              "border-teal-500 focus:border-teal-500"
+              "border-emerald-500 focus:border-emerald-500"
             )}
           />
           <label
             className={classNames(
               "absolute text-sm duration-300 transform -translate-y-3 scale-75 top-3.5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3",
-              "text-teal-600 peer-focus:text-teal-600"
+              "text-emerald-600 peer-focus:text-emerald-600"
             )}
           >
             Size
@@ -227,12 +227,12 @@ export default function Containers({ data, index, updateFunc }) {
               name="otherBrand"
               value={dataObject?.otherBrand || ""}
               onChange={(e) => change(e, "str")}
-              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-teal-900 border-teal-500 focus:border-teal-500 font-medium"
+              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-emerald-900 border-emerald-500 focus:border-emerald-500 font-medium"
             />
             <label
               className={classNames(
                 "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
-                "text-teal-700 peer-focus:text-teal-600"
+                "text-emerald-700 peer-focus:text-emerald-600"
               )}
             >
               Brand
@@ -275,12 +275,12 @@ export default function Containers({ data, index, updateFunc }) {
               placeholder=" "
               name="otherProd"
               onChange={(e) => change(e, "str")}
-              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-teal-900 border-teal-500 focus:border-teal-500 font-medium"
+              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-emerald-900 border-emerald-500 focus:border-emerald-500 font-medium"
             />
             <label
               className={classNames(
                 "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
-                "text-teal-700 peer-focus:text-teal-600"
+                "text-emerald-700 peer-focus:text-emerald-600"
               )}
             >
               Product

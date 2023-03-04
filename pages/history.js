@@ -66,9 +66,9 @@ export default function History() {
               type="text"
               placeholder=" "
               onChange={handleChange}
-              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-teal-700 border-teal-500 focus:border-teal-500"
+              className="block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer text-emerald-700 border-emerald-500 focus:border-emerald-500"
             />
-            <label className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-teal-700 peer-focus:text-teal-600">
+            <label className="absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 text-emerald-700 peer-focus:text-emerald-600">
               Search
             </label>
           </div>
@@ -105,7 +105,7 @@ export default function History() {
                   <div className="p-3 flex-1 border-t border-r border-dashed">
                     <div className="flex gap-4">
                       <div className="grid place-content-center">
-                        <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-teal-500 via-teal-300 to-teal-500">
+                        <div className="relative rounded-box w-12 h-12 overflow-hidden mt-2 mx-auto bg-gradient-to-r from-emerald-500 via-emerald-300 to-emerald-500">
                           <Image
                             src="/images/user.webp"
                             className="object-contain"
@@ -115,17 +115,17 @@ export default function History() {
                         </div>
                       </div>
                       <div className="">
-                        <p className="text-xs font-medium text-teal-600">
+                        <p className="text-xs font-medium text-emerald-600">
                           <span className="text-gray-400 capitalize">
                             phone :
                           </span>{" "}
                           {drop?.user?.id}
                         </p>
-                        <p className="text-lg font-medium text-teal-600 -mt-1">
+                        <p className="text-lg font-medium text-emerald-600 -mt-1">
                           {drop?.user?.name}
                         </p>
                         <p className="text-sm font-medium text-gray-500 capitalize">
-                          <span className="font-semibold text-teal-600">
+                          <span className="font-semibold text-emerald-600">
                             {getContainers(drop?.containers)}
                           </span>{" "}
                           containers

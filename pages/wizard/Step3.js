@@ -76,7 +76,7 @@ export default function Step3({ payload, setPayload, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-lg text-teal-600 font-medium text-center">
+      <p className="text-lg text-emerald-600 font-medium text-center">
         Confirm Customer Dropoff
       </p>
       {payload?.containers?.length > 0 &&

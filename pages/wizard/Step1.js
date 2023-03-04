@@ -73,7 +73,7 @@ export default function Step1({ payload, setPayload, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-sm text-teal-600 font-medium text-center mb-3">
+      <p className="text-sm text-emerald-600 font-medium text-center mb-3">
         Customer Phone Number
       </p>
       <div className="flex gap-2 items-center">
@@ -103,7 +103,7 @@ export default function Step1({ payload, setPayload, setStep }) {
               inputStates?.phoneNumber?.error && "text-error border-error",
               inputStates?.phoneNumber !== "success" &&
                 !inputStates?.phoneNumber?.error &&
-                "text-teal-500 border-teal-500 focus:border-teal-500"
+                "text-emerald-500 border-emerald-500 focus:border-emerald-500"
             )}
           />
           <label
@@ -113,7 +113,7 @@ export default function Step1({ payload, setPayload, setStep }) {
               inputStates?.phoneNumber?.error && "text-error",
               inputStates?.phoneNumber !== "success" &&
                 !inputStates?.phoneNumber?.error &&
-                "text-teal-700 peer-focus:text-teal-600"
+                "text-emerald-700 peer-focus:text-emerald-600"
             )}
           >
             7XXXXXXXX
@@ -125,7 +125,7 @@ export default function Step1({ payload, setPayload, setStep }) {
           {inputStates?.phoneNumber?.mess}
         </p>
       )}
-      <div className="grid place-content-center mt-[1vh] text-center text-teal-700 rounded-box min-h-[30vh]">
+      <div className="grid place-content-center mt-[1vh] text-center text-emerald-700 rounded-box min-h-[30vh]">
         <p className="font-medium text-lg text-gray-400">
           {!pending &&
             !person?.name &&
@@ -141,7 +141,7 @@ export default function Step1({ payload, setPayload, setStep }) {
         {!pending && person?.name && (
           <div>
             <p className="text-sm font-light text-primary">User Found</p>
-            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-teal-200 via-teal-400 to-teal-500">
+            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-emerald-200 via-emerald-400 to-emerald-500">
               <Image
                 src="/images/user.webp"
                 className="object-contain"
@@ -157,7 +157,7 @@ export default function Step1({ payload, setPayload, setStep }) {
         {payload && payload?.user && (
           <div>
             <p className="text-sm font-light text-primary">User Found</p>
-            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-teal-500 via-teal-300 to-teal-500">
+            <div className="relative rounded-box h-[8vh] w-[8vh] overflow-hidden mt-2 mx-auto bg-gradient-to-r from-emerald-500 via-emerald-300 to-emerald-500">
               <Image
                 src="/images/user.webp"
                 className="object-contain"

@@ -177,7 +177,7 @@ export default function FeedbackPage() {
     <AuthGuard>
       <main className="min-h-[95vh] px-6 pt-20 pb-16">
         <div className="mx-auto pb-10 w-full">
-          <p className="text-sm text-teal-600 font-medium text-center mb-3">
+          <p className="text-sm text-emerald-600 font-medium text-center mb-3">
             Customer Feedback
           </p>
           <div className="grid gap-4">
@@ -210,7 +210,7 @@ export default function FeedbackPage() {
                       "text-error border-error",
                     inputStates?.phoneNumber !== "success" &&
                       !inputStates?.phoneNumber?.error &&
-                      "text-teal-500 border-teal-500 focus:border-teal-500"
+                      "text-emerald-500 border-emerald-500 focus:border-emerald-500"
                   )}
                 />
                 <label
@@ -220,7 +220,7 @@ export default function FeedbackPage() {
                     inputStates?.phoneNumber?.error && "text-error",
                     inputStates?.phoneNumber !== "success" &&
                       !inputStates?.phoneNumber?.error &&
-                      "text-teal-700 peer-focus:text-teal-600"
+                      "text-emerald-700 peer-focus:text-emerald-600"
                   )}
                 >
                   7XXXXXXXX
@@ -247,7 +247,7 @@ export default function FeedbackPage() {
                   inputStates?.title?.error && "text-error border-error",
                   inputStates?.title !== "success" &&
                     !inputStates?.title?.error &&
-                    "text-teal-500 border-teal-500 focus:border-teal-500"
+                    "text-emerald-500 border-emerald-500 focus:border-emerald-500"
                 )}
               />
               <label
@@ -257,7 +257,7 @@ export default function FeedbackPage() {
                   inputStates?.title?.error && "text-error",
                   inputStates?.title !== "success" &&
                     !inputStates?.title?.error &&
-                    "text-teal-700 peer-focus:text-teal-600"
+                    "text-emerald-700 peer-focus:text-emerald-600"
                 )}
               >
                 Title
@@ -275,7 +275,7 @@ export default function FeedbackPage() {
                 inputStates?.content?.error && "text-error border-error",
                 inputStates?.content !== "success" &&
                     !inputStates?.content?.error &&
-                  "border-teal-500 focus:border-teal-500"
+                  "border-emerald-500 focus:border-emerald-500"
               )}
             />
             <label
@@ -285,7 +285,7 @@ export default function FeedbackPage() {
                 inputStates?.content?.error && "text-error border-error",
                 inputStates?.content !== "success" &&
                     !inputStates?.content?.error &&
-                  "text-teal-700 peer-focus:text-teal-600"
+                  "text-emerald-700 peer-focus:text-emerald-600"
               )}
             >
               Note Content
