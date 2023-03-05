@@ -177,7 +177,8 @@ const useUserFetch = () => {
         if (session?.id?.length < 1) {
           reject({ message: "Missing user Id" });
         } else {
-          let colRef = collection(db, "stand_feedback");
+          let colRef = collection(db, "feedback");
+          updateObj.source = "stand";
           updateObj.timestamp = serverTimestamp();
 
           addDoc(colRef, updateObj).then((res) => resolve("done"));

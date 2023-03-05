@@ -9,7 +9,9 @@ import { classNames, isEmpty, verifyNumber } from "../../helpers/utility";
 export default function Step1({ payload, setPayload, setStep }) {
   const [dataObject, setDataObject] = useState({});
   const [inputStates, setinputStates] = useState({});
-  const { person, pending, error } = usePersonFetch(`+254${dataObject?.phoneNumber}`);
+  const { person, pending, error } = usePersonFetch(
+    `+254${dataObject?.phoneNumber}`
+  );
 
   const change = (event, type = "num") => {
     event.preventDefault();
@@ -61,12 +63,12 @@ export default function Step1({ payload, setPayload, setStep }) {
       default:
         break;
     }
-  };  
+  };
 
   const handleComplete = (e) => {
     e.preventDefault();
     if (!pending && !error && !isEmpty(person)) {
-      setPayload({ ...payload, user: person });
+      setPayload({ ...payload, user: { id: person.id, name: person.name } });
       setStep("containers");
     }
   };
