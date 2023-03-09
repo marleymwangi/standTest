@@ -6,11 +6,15 @@ import useUserFetch from "../helpers/hooks/user";
 //custom
 import { classNames, isEmpty, verifyNumber } from "../helpers/utility";
 import { AuthGuard } from "../components/elements/AuthGuard";
+import usePersonFetch from "../helpers/hooks/person";
 
 export default function FeedbackPage() {
   const [loading, setLoading] = useState(false);
   const [dataObject, setDataObject] = useState({});
   const [inputStates, setinputStates] = useState({});
+  const { person, pending, error } = usePersonFetch(
+    `+254${dataObject?.phoneNumber}`
+  );
   const { addUserFeedback } = useUserFetch();
 
   const change = (event, type = "str") => {
@@ -138,9 +142,12 @@ export default function FeedbackPage() {
     e.preventDefault();
     if (isValidated()) {
       let obj = {};
-      obj.phone = `+254${dataObject?.phoneNumber?.trim()}`;
+      obj.user = {
+        name: person?.name || "Anonymous",
+        id: `+254${dataObject?.phoneNumber}`,
+      };
       obj.title = dataObject?.title?.trim();
-      obj.content = dataObject?.content?.trim();
+      obj.feedback = dataObject?.content?.trim();
 
       addUserFeedback(obj)
         .then((res) => {
@@ -234,35 +241,35 @@ export default function FeedbackPage() {
             )}
           </div>
           <div className="relative form-control w-full mt-3">
-              <input
-                type="text"
-                placeholder=" "
-                name="title"
-                value={dataObject?.title || ""}
-                onChange={(e) => change(e, "str")}
-                className={classNames(
-                  "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
-                  inputStates?.title === "success" &&
-                    "text-success border-success",
-                  inputStates?.title?.error && "text-error border-error",
-                  inputStates?.title !== "success" &&
-                    !inputStates?.title?.error &&
-                    "text-emerald-500 border-emerald-500 focus:border-emerald-500"
-                )}
-              />
-              <label
-                className={classNames(
-                  "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
-                  inputStates?.title === "success" && "text-success",
-                  inputStates?.title?.error && "text-error",
-                  inputStates?.title !== "success" &&
-                    !inputStates?.title?.error &&
-                    "text-emerald-700 peer-focus:text-emerald-600"
-                )}
-              >
-                Title
-              </label>
-            </div>
+            <input
+              type="text"
+              placeholder=" "
+              name="title"
+              value={dataObject?.title || ""}
+              onChange={(e) => change(e, "str")}
+              className={classNames(
+                "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer font-medium",
+                inputStates?.title === "success" &&
+                  "text-success border-success",
+                inputStates?.title?.error && "text-error border-error",
+                inputStates?.title !== "success" &&
+                  !inputStates?.title?.error &&
+                  "text-emerald-500 border-emerald-500 focus:border-emerald-500"
+              )}
+            />
+            <label
+              className={classNames(
+                "absolute text-sm duration-300 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] left-2.5  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4",
+                inputStates?.title === "success" && "text-success",
+                inputStates?.title?.error && "text-error",
+                inputStates?.title !== "success" &&
+                  !inputStates?.title?.error &&
+                  "text-emerald-700 peer-focus:text-emerald-600"
+              )}
+            >
+              Title
+            </label>
+          </div>
           <div className="relative form-control w-full mt-3">
             <textarea
               type="text"
@@ -271,26 +278,28 @@ export default function FeedbackPage() {
               onChange={(e) => change(e, "str")}
               className={classNames(
                 "block rounded-lg px-2.5 pb-2.5 pt-6 w-full text-sm bg-white border focus:border-2 appearance-none focus:outline-none focus:ring-0 peer",
-                inputStates?.content === "success" && "text-success border-success",
+                inputStates?.content === "success" &&
+                  "text-success border-success",
                 inputStates?.content?.error && "text-error border-error",
                 inputStates?.content !== "success" &&
-                    !inputStates?.content?.error &&
+                  !inputStates?.content?.error &&
                   "border-emerald-500 focus:border-emerald-500"
               )}
             />
             <label
               className={classNames(
                 "absolute text-sm duration-300 transform -translate-y-2 scale-75 top-3 z-10 origin-[0] left-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-2",
-                inputStates?.content === "success" && "text-success border-success",
+                inputStates?.content === "success" &&
+                  "text-success border-success",
                 inputStates?.content?.error && "text-error border-error",
                 inputStates?.content !== "success" &&
-                    !inputStates?.content?.error &&
+                  !inputStates?.content?.error &&
                   "text-emerald-700 peer-focus:text-emerald-600"
               )}
             >
               Note Content
             </label>
-            {inputStates?.content?.error  && (
+            {inputStates?.content?.error && (
               <p className="text-error text-xs italic text-center mt-1">
                 Please enter a valid content
               </p>

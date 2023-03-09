@@ -81,6 +81,18 @@ export const wasteTypes = [
   { text: "Plastic 7", value: "plastic7" },
 ];
 
+//find brand from brands array using value and return text
+export function findBrand(value) {
+  let brand = brands.find((b) => b.value === value);
+  return brand.text;
+}
+
+//find product from productsDict using value and return text
+export function findProduct(brnd, value) {
+  let product = productsDict[brnd].find((p) => p.value === value);
+  return product.text;
+}
+
 export const brands = [
   { text: "Coca Cola", value: "cocacola" },
   { text: "Bidco", value: "bidco" },

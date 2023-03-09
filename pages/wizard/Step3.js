@@ -6,8 +6,8 @@ import usePersonFetch from "../../helpers/hooks/person";
 import {
   classNames,
   isEmpty,
-  brands,
-  productsDict,
+  findBrand,
+  findProduct,
 } from "../../helpers/utility";
 
 export default function Step3({ payload, setPayload, setStep }) {
@@ -21,18 +21,6 @@ export default function Step3({ payload, setPayload, setStep }) {
       setStep("containers");
     }
   }, [payload]);
-
-  //find brand from brands array using value and return text
-  const findBrand = (value) => {
-    let brand = brands.find((b) => b.value === value);
-    return brand.text;
-  };
-
-  //find product from productsDict using value and return text
-  const findProduct = (brnd, value) => {
-    let product = productsDict[brnd].find((p) => p.value === value);
-    return product.text;
-  };
 
   const handleComplete = () => {
     if (!isEmpty(payload?.user) && !isEmpty(payload.containers)) {
