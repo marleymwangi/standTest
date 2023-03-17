@@ -94,7 +94,7 @@ const usePersonFetch = (phoneNumber) => {
       setTransPending(false);
     }
   }, [phoneNumber]);
-
+  
   function createUserAccount(obj) {
     return new Promise((resolve, reject) => {
       try {

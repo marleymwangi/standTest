@@ -69,7 +69,7 @@ const useUserFetch = () => {
 
   useEffect(() => {
     try {
-      let queryRef = query(collection(db, "users"));
+      let queryRef = query(collection(db, "users"), orderBy("created", "desc"));
       localforage.getItem("users", function (err, value) {
         // if err is non-null, we got an error. otherwise, value is the value
         if (!err && value) {
@@ -122,7 +122,7 @@ const useUserFetch = () => {
           (snapshot) => {
             let tmp = [];
             snapshot.forEach((doc) => {
-              let timestm = doc.data().timestamp.toDate();
+              let timestm = doc.data()?.timestamp.toDate();
               let d = {
                 id: doc.id,
                 ...doc.data(),

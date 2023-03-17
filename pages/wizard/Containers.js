@@ -208,7 +208,7 @@ export default function Containers({ data, index, updateFunc }) {
         )}
       >
         <option disabled value={"default"}>
-          Select Brand
+          Select Company
         </option>
         {brands.map((brand, i) => (
           <option key={i} value={brand.value}>
