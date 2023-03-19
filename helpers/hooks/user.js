@@ -82,7 +82,8 @@ const useUserFetch = () => {
         (snapshot) => {
           let tmp = [];
           snapshot.forEach((doc) => {
-            let per = { id: doc.id, ...doc.data() };
+            let crtd = doc.data()?.created?.toDate();
+            let per = { id: doc.id, ...doc.data(), created: crtd };
             tmp.push(per);
           });
 
@@ -122,7 +123,7 @@ const useUserFetch = () => {
           (snapshot) => {
             let tmp = [];
             snapshot.forEach((doc) => {
-              let timestm = doc.data()?.timestamp.toDate();
+              let timestm = doc.data()?.timestamp?.toDate();
               let d = {
                 id: doc.id,
                 ...doc.data(),

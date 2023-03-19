@@ -1,5 +1,6 @@
 import Router from "next/router";
 import Image from "next/image";
+import { format } from "date-fns";
 
 export default function UserCard({ data }) {
   const handleClick = (e) => {
@@ -31,6 +32,14 @@ export default function UserCard({ data }) {
           <div className="flex items-center gap-3 text-sm">
             <p className="text-xs text-gray-400 capitalize">phone </p>
             <p className="font-medium text-emerald-600 flex-1"> {data?.id}</p>
+          </div>
+          <div className="flex items-center gap-3 text-sm  mt-2">
+            <p className="text-xs text-gray-400 capitalize">created </p>
+            <p className="text-xs text-gray-400 flex-1">
+              {" "}
+              {new Date(data?.created) instanceof Date &&
+                format(new Date(data?.created), "Ppp")}
+            </p>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useData } from "../../context/dataContext";
 import { useEffect } from "react";
 import { isEmpty, brands, productsDict } from "../../helpers/utility";
 import Link from "next/link";
+import { format, formatDistanceToNow } from "date-fns";
 
 export default function ModalDrop() {
   const { selDrop } = useData();
@@ -60,6 +61,20 @@ export default function ModalDrop() {
             <p className="font-medium capitalize">{selDrop?.status}</p>
             <p className="text-gray-400">Location</p>{" "}
             <p className="font-medium capitalize">Quickmart Kilimani</p>
+            <p className="text-gray-400">Time</p>{" "}
+            <div className="">
+              <p className="font-medium text-primary">
+                {new Date(selDrop?.timestamp) instanceof Date &&
+                  !isNaN(new Date(selDrop?.timestamp)) &&
+                  format(new Date(selDrop?.timestamp), "PPp")}
+              </p>
+              <p className="font-medium text-sm text-primary">
+                {new Date(selDrop?.timestamp) instanceof Date &&
+                  !isNaN(new Date(selDrop?.timestamp)) &&
+                  formatDistanceToNow(new Date(selDrop?.timestamp))}{" "}
+                ago
+              </p>
+            </div>
             <p className="col-span-2 text-lg font-semibold mt-6 text-gray-400">
               Containers
             </p>

@@ -25,7 +25,9 @@ export default function User() {
           let matched = names.some((name) =>
             name
               .toLowerCase()
-              .startsWith(text.slice(0, Math.max(name.length - 1, 1)))
+              .startsWith(
+                text.toLowerCase().slice(0, Math.max(name.length - 1, 1))
+              )
           );
           return phone.includes(text.toLowerCase()) || matched;
         })
