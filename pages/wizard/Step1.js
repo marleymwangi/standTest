@@ -70,6 +70,8 @@ export default function Step1({ payload, setPayload, setStep }) {
     if (!pending && !error && !isEmpty(person)) {
       setPayload({ ...payload, user: { id: person.id, name: person.name } });
       setStep("containers");
+    }else if(!isEmpty(payload?.user)){
+      setStep("containers");
     }
   };
 

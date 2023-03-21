@@ -20,7 +20,7 @@ export default function Step2({ payload, setPayload, setStep }) {
   }, [payload]);
 
   useEffect(() => {
-    //console.log(brandContainers)
+    console.log(brandContainers)
     //stores partial data in local storage to help with refreshes
     localforage.setItem("containers-temp", JSON.stringify(brandContainers), function (err) {
       // if err is non-null, we got an error
