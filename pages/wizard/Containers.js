@@ -10,7 +10,7 @@ import {
 } from "../../helpers/utility";
 
 export default function Containers({ data, index, updateFunc }) {
-  const [dataObject, setDataObject] = useState({});
+  const [dataObject, setDataObject] = useState(reverseObjBuild(data[index]) || {});
   const [inputStates, setinputStates] = useState({});
 
   const [containers, setContainers] = useState(0);
@@ -103,38 +103,58 @@ export default function Containers({ data, index, updateFunc }) {
     }
   };
 
+  function reverseObjBuild(obj) {
+    let tmp = { ...obj };
+    if (obj.ob) {
+      tmp.otherBrand = obj.brand;
+      tmp.brand = "other";
+      delete tmp.ob;
+    }
+    if (obj.op) {
+      tmp.otherProd = obj.product;
+      tmp.product = "other";
+      delete tmp.op;
+    }
+    return tmp;
+  }
+
+  useEffect(() => {
+    let tmp = reverseObjBuild(data[index]);
+    setDataObject(tmp);
+  }, []);
+
   useEffect(() => {
     let cpy = JSON.parse(JSON.stringify(data));
     let tmp = cpy[index];
-      if (dataObject?.type?.length > 0) {
-        tmp.type = dataObject.type;
-      }
-      if (dataObject?.size?.length > 0) {
-        tmp.size = dataObject.size;
-      }
-      if (dataObject?.units?.length > 0) {
-        tmp.units = dataObject.units;
-      }
-      if (dataObject.brand === "other") {
-        tmp.brand = dataObject?.otherBrand?.trim();
-        tmp.ob = true;
-      } else if (dataObject.brand?.length > 0) {
-        tmp.brand = dataObject?.brand;
-      }
-      if (dataObject?.product === "other") {
-        tmp.product = dataObject?.otherProd?.trim();
-        tmp.op = true;
-      } else if (dataObject?.product?.length > 0) {
-        tmp.product = dataObject?.product;
-      }
-    updateFunc(cpy); 
+    if (dataObject?.type?.length > 0) {
+      tmp.type = dataObject.type;
+    }
+    if (dataObject?.size?.length > 0) {
+      tmp.size = dataObject.size;
+    }
+    if (dataObject?.units?.length > 0) {
+      tmp.units = dataObject.units;
+    }
+    if (dataObject.brand === "other") {
+      tmp.brand = dataObject?.otherBrand?.trim();
+      tmp.ob = true;
+    } else if (dataObject.brand?.length > 0) {
+      tmp.brand = dataObject?.brand;
+    }
+    if (dataObject?.product === "other") {
+      tmp.product = dataObject?.otherProd?.trim();
+      tmp.op = true;
+    } else if (dataObject?.product?.length > 0) {
+      tmp.product = dataObject?.product;
+    }
+    updateFunc(cpy);
   }, [dataObject]);
 
   useEffect(() => {
     let cpy = JSON.parse(JSON.stringify(data));
     let tmp = cpy[index];
     tmp.containers = containers;
-    updateFunc(cpy);    
+    updateFunc(cpy);
   }, [containers]);
 
   return (
@@ -201,6 +221,7 @@ export default function Containers({ data, index, updateFunc }) {
       <select
         name="brand"
         defaultValue={"default"}
+        value={dataObject?.brand || "default"}
         onChange={(e) => change(e, "sel")}
         className={classNames(
           "select w-full",
@@ -248,7 +269,7 @@ export default function Containers({ data, index, updateFunc }) {
       <select
         name="product"
         defaultValue={"default"}
-        value={dataObject?.product}
+        value={dataObject?.product || "default"}
         onChange={(e) => change(e, "sel")}
         className={classNames(
           "select w-full",
