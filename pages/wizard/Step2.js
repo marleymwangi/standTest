@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import localforage from "localforage";
 import { useEffect, useState } from "react";
 //hooks
 import usePersonFetch from "../../helpers/hooks/person";
@@ -17,6 +18,25 @@ export default function Step2({ payload, setPayload, setStep }) {
       setStep("number");
     }
   }, [payload]);
+
+  useEffect(() => {
+    //console.log(brandContainers)
+    //stores partial data in local storage to help with refreshes
+    localforage.setItem("containers-temp", JSON.stringify(brandContainers), function (err) {
+      // if err is non-null, we got an error
+    });
+  }, [brandContainers]);
+
+  useEffect(() => {
+    localforage.getItem("containers-temp", function (err, value) {
+      // if err is non-null, we got an error. otherwise, value is the value
+      if (value) {
+        let  obj = JSON.parse(value);
+        setBrandContainers(obj)
+      }
+    });
+  }, []);    
+
 
   const addContainer = (e) => {
     e.preventDefault();

@@ -106,27 +106,27 @@ export default function Containers({ data, index, updateFunc }) {
   useEffect(() => {
     let cpy = JSON.parse(JSON.stringify(data));
     let tmp = cpy[index];
-    if (dataObject?.type?.length > 0) {
-      tmp.type = dataObject.type;
-    }
-    if (dataObject?.size?.length > 0) {
-      tmp.size = dataObject.size;
-    }
-    if (dataObject?.units?.length > 0) {
-      tmp.units = dataObject.units;
-    }
-    if (dataObject.brand === "other") {
-      tmp.brand = dataObject?.otherBrand?.trim();
-      tmp.ob = true;
-    } else if (dataObject.brand?.length > 0) {
-      tmp.brand = dataObject?.brand;
-    }
-    if (dataObject?.product === "other") {
-      tmp.product = dataObject?.otherProd?.trim();
-      tmp.op = true;
-    } else if (dataObject?.product?.length > 0) {
-      tmp.product = dataObject?.product;
-    }
+      if (dataObject?.type?.length > 0) {
+        tmp.type = dataObject.type;
+      }
+      if (dataObject?.size?.length > 0) {
+        tmp.size = dataObject.size;
+      }
+      if (dataObject?.units?.length > 0) {
+        tmp.units = dataObject.units;
+      }
+      if (dataObject.brand === "other") {
+        tmp.brand = dataObject?.otherBrand?.trim();
+        tmp.ob = true;
+      } else if (dataObject.brand?.length > 0) {
+        tmp.brand = dataObject?.brand;
+      }
+      if (dataObject?.product === "other") {
+        tmp.product = dataObject?.otherProd?.trim();
+        tmp.op = true;
+      } else if (dataObject?.product?.length > 0) {
+        tmp.product = dataObject?.product;
+      }
     updateFunc(cpy); 
   }, [dataObject]);
 
