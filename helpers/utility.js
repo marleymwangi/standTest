@@ -225,10 +225,22 @@ export const productsDict = {
     { text: "Aquaclear", value: "aquaclear" },
   ],
   bounty: [
-    { text: "Safari", value: "safari" },
+    { text: "Safari Lemonade", value: "safarilemonade" },
+    { text: "Safari Orange", value: "safariorange" },
+    { text: "Safari King Water", value: "safarikingwater" },
+    { text: "Safari King Club Soda", value: "safarikingclubsoda" },
     { text: "Rendezvous", value: "rendezvous" },
     { text: "Keror", value: "keror" },
     { text: "Exquisite", value: "exquisite" },
+  ],
+  london: [
+    { text: "Safari", value: "safari" },
+    { text: "Meankins", value: "meankins" },
+    { text: "Napoleon", value: "napoleon" },
+    { text: "Madafu Liqueur", value: "madafuliqueur" },
+    { text: "Kahawa Liqueur", value: "kahawaliqueur" },
+    { text: "Kienyeji", value: "kienyeji" },
+    { text: "Oak Cask", value: "oakcask" },
   ],
   bidco: [
     { text: "Elianto", value: "elianto" },

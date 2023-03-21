@@ -1,5 +1,4 @@
-import localforage from "localforage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AuthGuard } from "../../components/elements/AuthGuard";
 import { classNames } from "../../helpers/utility";
 //custom
@@ -10,25 +9,6 @@ import Step3 from "./Step3";
 export default function WizardIndex() {
   const [step, setStep] = useState("number");
   const [payload, setPayload] = useState({});
-
-  useEffect(() => {
-    //console.log(payload)
-    localforage.setItem("lastorder", JSON.stringify(payload), function (err) {
-      // if err is non-null, we got an error
-    });
-  }, [payload]);
-
-  useEffect(() => {
-    if (step !== "number") {
-      localforage.getItem("lastorder", function (err, value) {
-        // if err is non-null, we got an error. otherwise, value is the value
-        if (value) {
-          let obj = JSON.parse(value);
-          setPayload(obj);
-        }
-      });
-    }
-  }, []);
 
   return (
     <AuthGuard>

@@ -8,6 +8,7 @@ import Containers from "./Containers";
 import { classNames, isEmpty } from "../../helpers/utility";
 //dynamic
 const FaPlus = dynamic(async () => (await import("react-icons/fa")).FaPlus);
+const FaEraser = dynamic(async () => (await import("react-icons/fa")).FaEraser);
 
 export default function Step2({ payload, setPayload, setStep }) {
   const { pending, error } = usePersonFetch(payload?.user?.id);
@@ -20,23 +21,26 @@ export default function Step2({ payload, setPayload, setStep }) {
   }, [payload]);
 
   useEffect(() => {
-    console.log(brandContainers)
+    console.log(brandContainers);
     //stores partial data in local storage to help with refreshes
-    localforage.setItem("containers-temp", JSON.stringify(brandContainers), function (err) {
-      // if err is non-null, we got an error
-    });
+    localforage.setItem(
+      "containers-temp",
+      JSON.stringify(brandContainers),
+      function (err) {
+        // if err is non-null, we got an error
+      }
+    );
   }, [brandContainers]);
 
   useEffect(() => {
     localforage.getItem("containers-temp", function (err, value) {
       // if err is non-null, we got an error. otherwise, value is the value
       if (value) {
-        let  obj = JSON.parse(value);
-        setBrandContainers(obj)
+        let obj = JSON.parse(value);
+        setBrandContainers(obj);
       }
     });
-  }, []);    
-
+  }, []);
 
   const addContainer = (e) => {
     e.preventDefault();
@@ -89,9 +93,17 @@ export default function Step2({ payload, setPayload, setStep }) {
 
   return (
     <div className="mx-auto pb-10 w-full">
-      <p className="text-lg text-emerald-600 font-medium text-center">
-        Customer Containers
-      </p>
+      <div className="flex max-w-md justify-between items-center mx-auto">
+        <p className="text-lg text-emerald-600 font-medium text-center">
+          Customer Containers
+        </p>
+        <button
+          onClick={eraseContainerHist}
+          className="btn btn-circle btn-outline"
+        >
+          <FaEraser size="1.5em" />
+        </button>
+      </div>
       <div className="grid mt-6 gap-6">
         {brandContainers?.length > 0 &&
           brandContainers?.map((_, i) => (
@@ -131,4 +143,11 @@ export default function Step2({ payload, setPayload, setStep }) {
       </div>
     </div>
   );
+
+  function eraseContainerHist() {
+    localforage.removeItem("containers-temp", function (err) {
+      // if err is non-null, we got an error
+      setBrandContainers([]);
+    });
+  }
 }
