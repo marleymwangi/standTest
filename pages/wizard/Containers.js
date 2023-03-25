@@ -1,3 +1,4 @@
+import isEqual from "lodash.isequal";
 import { useState, useEffect } from "react";
 //custom
 import NumberPicker from "../../components/elements/NumberPicker";
@@ -7,119 +8,28 @@ import {
   classNames,
   productsDict,
   verifyNumber,
+  isEmpty,
 } from "../../helpers/utility";
 
 export default function Containers({ data, index, updateFunc }) {
-  const [dataObject, setDataObject] = useState(reverseObjBuild(data[index]) || {});
+  const [dataObject, setDataObject] = useState({});
   const [inputStates, setinputStates] = useState({});
 
   const [containers, setContainers] = useState(0);
 
-  const change = (event, type = "str") => {
-    switch (type) {
-      case "sel":
-        setDataObject((prevState) => {
-          return {
-            ...prevState,
-            [event.target.name]: event.target.value,
-          };
-        });
-
-        if (event.target.value?.length > 0) {
-          setinputStates((prevState) => {
-            return {
-              ...prevState,
-              [event.target.name]: "success",
-            };
-          });
-        } else {
-          setinputStates((prevState) => {
-            return {
-              ...prevState,
-              [event.target.name]: null,
-            };
-          });
-        }
-        break;
-      case "str":
-        setDataObject((prevState) => {
-          return {
-            ...prevState,
-            [event.target.name]: event.target.value,
-          };
-        });
-
-        if (event.target.value?.length > 0) {
-          setinputStates((prevState) => {
-            return {
-              ...prevState,
-              [event.target.name]: "success",
-            };
-          });
-        } else {
-          setinputStates((prevState) => {
-            return {
-              ...prevState,
-              [event.target.name]: null,
-            };
-          });
-        }
-        break;
-      case "num":
-        if (verifyNumber(event.target.value) || event.target.value === "") {
-          setDataObject((prevState) => {
-            return {
-              ...prevState,
-              [event.target.name]: event.target.value,
-            };
-          });
-
-          if (event.target.value?.length > 0) {
-            setinputStates((prevState) => {
-              return {
-                ...prevState,
-                [event.target.name]: "success",
-              };
-            });
-          } else {
-            setinputStates((prevState) => {
-              return {
-                ...prevState,
-                [event.target.name]: null,
-              };
-            });
-          }
-        } else {
-          setinputStates({
-            ...inputStates,
-            [event.target.name]: {
-              error: true,
-              mess: "Please enter a valid input",
-            },
-          });
-        }
-      default:
-        break;
+  useEffect(() => {
+    if (!isEmpty(data[index])) {
+      let tmp = reverseObjBuild(data[index]);
+      if (isEqual(tmp, dataObject)) {
+        return;
+      }
+      setDataObject(tmp);
     }
-  };
-
-  function reverseObjBuild(obj) {
-    let tmp = { ...obj };
-    if (obj.ob) {
-      tmp.otherBrand = obj.brand;
-      tmp.brand = "other";
-      delete tmp.ob;
-    }
-    if (obj.op) {
-      tmp.otherProd = obj.product;
-      tmp.product = "other";
-      delete tmp.op;
-    }
-    return tmp;
-  }
+  }, [data]);
 
   useEffect(() => {
     let tmp = reverseObjBuild(data[index]);
+    console.log(tmp);
     setDataObject(tmp);
   }, []);
 
@@ -151,7 +61,7 @@ export default function Containers({ data, index, updateFunc }) {
   }, [dataObject]);
 
   useEffect(() => {
-    let cpy = JSON.parse(JSON.stringify(data));
+    let cpy = JSON.parse(JSON.stringify(data)) || {};
     let tmp = cpy[index];
     tmp.containers = containers;
     updateFunc(cpy);
@@ -163,6 +73,7 @@ export default function Containers({ data, index, updateFunc }) {
       <select
         name="type"
         defaultValue={"default"}
+        value={dataObject?.type || "default"}
         onChange={(e) => change(e, "sel")}
         className={classNames(
           "select w-full",
@@ -220,7 +131,6 @@ export default function Containers({ data, index, updateFunc }) {
       </div>
       <select
         name="brand"
-        defaultValue={"default"}
         value={dataObject?.brand || "default"}
         onChange={(e) => change(e, "sel")}
         className={classNames(
@@ -319,4 +229,110 @@ export default function Containers({ data, index, updateFunc }) {
       <NumberPicker setFunc={setContainers} />
     </div>
   );
+
+  function reverseObjBuild(obj) {
+    if (isEmpty(obj)) {
+      return {};
+    }
+    let tmp = { ...obj };
+    if (obj?.ob) {
+      tmp.otherBrand = obj.brand;
+      tmp.brand = "other";
+      delete tmp.ob;
+    }
+    if (obj?.op) {
+      tmp.otherProd = obj.product;
+      tmp.product = "other";
+      delete tmp.op;
+    }
+    return tmp;
+  }
+
+  function change(event, type = "str") {
+    switch (type) {
+      case "sel":
+        setDataObject((prevState) => {
+          return {
+            ...prevState,
+            [event.target.name]: event.target.value,
+          };
+        });
+
+        if (event.target.value?.length > 0) {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: "success",
+            };
+          });
+        } else {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: null,
+            };
+          });
+        }
+        break;
+      case "str":
+        setDataObject((prevState) => {
+          return {
+            ...prevState,
+            [event.target.name]: event.target.value,
+          };
+        });
+
+        if (event.target.value?.length > 0) {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: "success",
+            };
+          });
+        } else {
+          setinputStates((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: null,
+            };
+          });
+        }
+        break;
+      case "num":
+        if (verifyNumber(event.target.value) || event.target.value === "") {
+          setDataObject((prevState) => {
+            return {
+              ...prevState,
+              [event.target.name]: event.target.value,
+            };
+          });
+
+          if (event.target.value?.length > 0) {
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: "success",
+              };
+            });
+          } else {
+            setinputStates((prevState) => {
+              return {
+                ...prevState,
+                [event.target.name]: null,
+              };
+            });
+          }
+        } else {
+          setinputStates({
+            ...inputStates,
+            [event.target.name]: {
+              error: true,
+              mess: "Please enter a valid input",
+            },
+          });
+        }
+      default:
+        break;
+    }
+  }
 }
