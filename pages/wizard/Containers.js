@@ -141,11 +141,21 @@ export default function Containers({ data, index, updateFunc }) {
         <option disabled value={"default"}>
           Select Company
         </option>
-        {brands.map((brand, i) => (
-          <option key={i} value={brand.value}>
-            {brand.text}
-          </option>
-        ))}
+        {brands
+          ?.sort((a, b) => {
+            if (a.value > b.value) {
+              return 1;
+            }
+            if (a.value < b.value) {
+              return -1;
+            }
+            return 0;
+          })
+          ?.map((brand, i) => (
+            <option key={i} value={brand.value}>
+              {brand.text}
+            </option>
+          ))}
         <option value="other">Other</option>
       </select>
       {
@@ -190,11 +200,21 @@ export default function Containers({ data, index, updateFunc }) {
           Select Product
         </option>
         {productsDict[dataObject?.brand]?.length > 0 &&
-          productsDict[dataObject?.brand].map((p, i) => (
-            <option key={i} value={p.value}>
-              {p.text}
-            </option>
-          ))}
+          productsDict[dataObject?.brand]
+            ?.sort((a, b) => {
+              if (a.value > b.value) {
+                return 1;
+              }
+              if (a.value < b.value) {
+                return -1;
+              }
+              return 0;
+            })
+            ?.map((p, i) => (
+              <option key={i} value={p.value}>
+                {p.text}
+              </option>
+            ))}
         <option value="other">Other</option>
       </select>
       {
