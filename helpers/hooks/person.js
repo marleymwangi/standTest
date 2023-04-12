@@ -108,7 +108,7 @@ const usePersonFetch = (phoneNumber) => {
 
           setDoc(colRef, {
             name,
-            points: 5,
+            points: 0,
             enrolled: "stand",
             state: "active",
             created: serverTimestamp(),
